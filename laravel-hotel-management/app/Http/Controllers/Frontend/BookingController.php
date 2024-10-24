@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class BookingController extends Controller
+
 {
     public function CheckOut(){
         if(session::has('book_date')){
@@ -158,4 +159,24 @@ $editData = Booking::with('room')->find($id);
 return view('backend.booking.edit_booking',compact('editData'));
 }
 
+public function UpdateBookingStatus(Request $request, $id){
+ $booking = Booking::find($id);
+ $booking->payment_status = $request->payment_status;
+ $booking->status = $request->status;
+ $booking->save();
+
+ $notification = array(
+    'message' => 'Booking status Successfully Update',
+    'alert-type' => 'success'
+    );
+  
+    return redirect()->back()->with($notification);
 }
+
+public function AssignRoom(){
+    
+}
+
+}
+
+

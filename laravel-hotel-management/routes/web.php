@@ -105,7 +105,7 @@ Route::controller(FrontendRoomController::class)->group(function(){
     Route::get('room/details/{id}','RoomDetailsPage');
     Route::get('/booking/','BookingSearch')->name('booking.search');
     Route::get('search/room/details/{id}', 'SearchRoomDetails')->name('search.room.details');
-    Route::post('/check_room_availability','CheckRoomAvailability')->name('check_room_availability');
+    Route::post('/check_room_availability/','CheckRoomAvailability')->name('check_room_availability');
 });
 
 
@@ -115,6 +115,8 @@ Route::controller(BookingController::class)->group(function(){
 Route::get('/checkout/','CheckOut')->name('checkout');
 Route::post('/booking/store','BookingStore')->name('user_booking_store');
 Route::post('/checkout/store', 'CheckoutStore')->name('checkout.store');
+Route::post('update/booking/status/{id}', 'UpdateBookingStatus')->name('update.booking.status');
+Route::post('assign_room/{id}', 'AssignRoom')->name('assign_room');
 
 });
 });

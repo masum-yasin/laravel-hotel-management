@@ -23,24 +23,23 @@
                             <div class="form-group">
                                 <label>CHECK IN TIME</label>
                                 <div class="input-group">
-                                    <input autocomplete="off" type="text" required name="check_in" class="form-control dt_picker" placeholder="yyy-mm-dd">
+                                    <input autocomplete="off" type="text" required name="check_in" class="form-control dt_picker" placeholder="yyyy-mm-dd">
                                     <span class="input-group-addon"></span>
                                 </div>
-                                <i class='bx bxs-chevron-down'></i>	
+                                <i class='bx bxs-chevron-down'></i>    
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3">
                             <div class="form-group">
-                                <label>CHECK OUT TIME</label>
+                                <label>CHECK IN TIME</label>
                                 <div class="input-group">
-                                    <input autocomplete="off" type="text" required name="check_out"  class="form-control dt_picker" placeholder="yyy-mm-dd">
+                                    <input autocomplete="off" type="text" required name="check_in" class="form-control dt_picker" placeholder="yyyy-mm-dd">
                                     <span class="input-group-addon"></span>
                                 </div>
-                                <i class='bx bxs-chevron-down'></i>	
+                                <i class='bx bxs-chevron-down'></i>    
                             </div>
                         </div>
-
                         <div class="col-lg-2 col-md-2">
                             <div class="form-group">
                                 <label>GUESTS</label>
@@ -92,4 +91,40 @@
     <!-- Blog Area -->
   @include('frontend.home.blog')
     <!-- Blog Area End -->
+
+
+  <script>
+         $('.dt_picker').datepicker({
+        dateFormat: 'yy-mm-dd',
+        autoclose: true,
+        minDate: 0
+    });
+
+
+    $("#startdate").datepicker({
+        todayBtn:  1,
+        startDate: new Date(),
+        format: 'yyyy-mm-dd' ,
+        autoclose: true,
+        yearSelect: function(current) {
+            return [current - 10, current + 10];
+        },
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        minDate.setDate(minDate.getDate() + 1);
+
+        $('#enddate').datepicker('setStartDate', minDate);
+        $('#enddate').val('');
+    });
+
+    $("#enddate").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+    }).on('changeDate', function (selected) {
+        console.log('ok')
+    });
+    </script> 
+
+
+   
 @endsection

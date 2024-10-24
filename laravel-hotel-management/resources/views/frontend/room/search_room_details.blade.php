@@ -394,7 +394,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    room_id: room_id,
+                    room_id: rooms_id,
                     check_in: check_in,
                     check_out: check_out
                 },
