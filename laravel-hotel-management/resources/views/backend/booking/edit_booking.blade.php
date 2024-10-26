@@ -165,11 +165,11 @@
                       </div>
 
 
-
+                        {{-- Assign Room --}}
 
                       <div style="clear: both"></div>
                       <div style="margin-top: 40px; margin-bootom:40px">
-                        <a href="javascript::void(0)" class="btn btn-primary assign_room"></a>
+                        <a href="javascript::void(0)" class="btn btn-primary assign_room">Assign Room</a>
                       </div>
 
 
@@ -289,7 +289,7 @@
         </div><!--end row-->
 
     </div>
-
+{{-- Modal --}}
 
     <div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

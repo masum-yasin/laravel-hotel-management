@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\BookingRoomList;
+use App\Models\roomNumber;
 
 class BookingController extends Controller
 
@@ -173,9 +175,16 @@ public function UpdateBookingStatus(Request $request, $id){
     return redirect()->back()->with($notification);
 }
 
-public function AssignRoom(){
-    
+public function AssignRoom($booking_id){
+  $booking = Booking::find($booking_id) ;
+  $booking_date_array = RoomBookDate::where('booking_id',$booking_id)->pluck('book_date')->toArray();
+  $check_date_booking_ids = RoomBookDate::whereIn('book_date', $booking_date_array)->where('room_id', $booking->rooms_id)->pluck('booking_id')->toArray();
+  $booking_ids=  Booking::whereIn('id',$check_date_booking_ids)->pluck('id')->toArray();
+  $assign_room_ids= BookingRoomList::whereIn('booking_id',  $booking_ids)->pluck('room_number_id')->toArray();
+  $room_Numbers =roomNumber::where('rooms_id',$booking->rooms_id)->whereNotIn('id',  $assign_room_ids)->where('status', 'Active')->get();
+  return view('backend.booking.assign_room', compact('booking', 'room_Numbers'));
 }
+
 
 }
 
