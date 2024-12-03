@@ -1,6 +1,8 @@
 @extends('admin.admin_dashboard')
 @section('title', 'Radisson Hotel')
 @section('admin')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <div class="page-content">
@@ -168,11 +170,27 @@
                         {{-- Assign Room --}}
 
                       <div style="clear: both"></div>
-                      <div style="margin-top: 40px; margin-bootom:40px">
+                      <div style="margin-top: 40px;  margin-bottom: 40px;">
                         <a href="javascript::void(0)" class="btn btn-primary assign_room">Assign Room</a>
                       </div>
-
-
+                      @php
+                          $assign_rooms = App\Models\BookingRoomList::with('room_number')->where('booking_id', $editData->id)->get();
+                      @endphp
+                        @if (count( $assign_rooms) > 0)
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Room Number</th>
+                                <th>Action</th>
+                            </tr>
+                           @foreach ($assign_rooms as $assign_room)
+                               <tr>
+                                <td>{{$assign_room->room_number->room_no}}</td>
+                                <td><a href="{{route('assign_room_delete',  $assign_room->id)}}" id="delete">Delete</a></td>
+                            </tr>
+                            @endforeach          
+                            
+                         </table>
+                         @endif
                       {{-- ending responsive table --}}
                       <form action="{{route('update.booking.status', $editData->id)}}" method="post">
                         @csrf
@@ -218,7 +236,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                       <form action="">
+                       <form action="{{route('update.booking', $editData->id)}}" method="POST">
+                        @csrf
                         <div class="row">
                             <div class="col-md-12 mb-2">
                                 <label for="">CheckIn</label>
@@ -232,11 +251,12 @@
                                 <label for="">Room Number</label>
                                 <input type="number" required name="number_of_rooms" class="form-control" value="{{$editData->number_of_rooms}}">
                             </div>
-                            <input type="hidden" name="availablity_room" id="availablity_room" class="form-control" value="{{$editData->number_of_rooms}}">
+                            <input type="hidden" name="available_room" id="available_room" class="form-control" value="{{$editData->number_of_rooms}}">
+
                             <div class="col-md-12 mb-2">
-                                <label for="">Availability: <span class="text-success availablity"></span></label>
-                                
+                                <label for="">Availability: <span class="text-success availability"></span></label>
                             </div>
+                            
                             <div class="mt-2">
                                 <button type="submit"class="btn btn-primary">Update</button>
                             </div>
@@ -291,54 +311,108 @@
     </div>
 {{-- Modal --}}
 
-    <div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Room</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body"></div>
-               
+<div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body"></div>
         </div>
     </div>
+</div>
 
+    
 
+    {{-- <script>
+        var assignRoomUrl = "{{ route('assign_room', $editData->id) }}";
+        console.log(assignRoomUrl); // Check this output in the browser console
+    </script> --}}
 
 <script>
-    $(document).ready(function(){
-        function getAvailability();
-
-        $('.assign_room').on('click', function(){
-            $.ajax({
-                url: "{{route('assign_room', $editData->id)}}";
-                success: function (data){
-                    $('.myModal . modal-body').html(data);
-                    $('.myModal').modal('show');
-                }
-            })
-            return false;
-
-        })
 
 
-    })
-    function getAvailability(){
-        var check_in = $('#check_in').val();
-        var check_out = $('#check_out').val();
-        var room_id   = "{{$editData->rooms_id}}";
+$(document).ready(function() {
+    getAvailability();
+    var assignRoomUrl = "{{ route('assign_room', $editData->id) }}";
+     
 
-
+    $('.assign_room').on('click', function() {
         $.ajax({
-        url: "{{route('check_room_availability')}}";
-        data:{room_id:room_id, check_in:check_in, check_out:check_out};
-        success: function (data){
-            $('.availablity').text(data['availablity_room']);
-            $('#availablity_room').text(data['availablity_room']);
-        };
+            url: assignRoomUrl,
+            success: function(data) {
+                $('.myModal .modal-body').html(data);
+                $('.myModal').modal('show');
+            }
+        });
+        return false;
     });
-    }
+});
+
+
+
+
+
+function getAvailability(){
+    var check_in = $('#check_in').val();
+    var check_out = $('#check_out').val();
+    var room_id   = "{{$editData->rooms_id}}";
+
+    $.ajax({
+        url: "{{route('check_room_availability')}}",
+        type:"GET",
+        data: {room_id: room_id, check_in: check_in, check_out: check_out},
+        success: function (data) {
+            console.log(data);
+    
+            
+            $('.availability').text(data['available_room']);
+            $('#available_room').val(data['available_room']);
+        }
+    });
+
+}
+
+// $(document).ready(function(){
+//     function getAvailability() {
+//     var check_in = $('#check_in').val();
+//     var check_out = $('#check_out').val();
+//     var room_id = "{{$editData->rooms_id}}";
+
+//     $.ajax({
+//         url: "{{route('check_room_availability')}}",
+//         type: "GET",
+//         data: {
+//             room_id: room_id,
+//             check_in: check_in,
+//             check_out: check_out
+//         },
+//         success: function (data) {
+//             console.log('AJAX Response:', data);
+
+//             // Check if response contains `available_room`
+//             if (data.available_room !== undefined) {
+//                 $('.availability').text(data.available_room).css('display', 'inline'); // Update text
+//                 $('#available_room').val(data.available_room); // Update hidden input
+//             } else {
+//                 console.error('Available room data not found in response.');
+//                 $('.availability').text('Not Available').css('display', 'inline');
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             console.error('AJAX Error:', xhr.responseText);
+//             $('.availability').text('Error Fetching Availability').css('display', 'inline');
+//         }
+//     });
+// }
+// })
+
+
+
+
+
+
   
 </script>
     

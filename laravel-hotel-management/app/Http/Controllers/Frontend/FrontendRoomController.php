@@ -69,73 +69,33 @@ return view('frontend.room.search_room_details',compact('RoomDetails','multiImag
 
     public function CheckRoomAvailability(Request $request){
 
-      // $sdate = date('Y-m-d', $request->check_in);
-      // $edate = date('Y-m-d', $request->check_out);
-      // $allEdate =Carbon::create($edate)->subDay();
-      // $d_period = CarbonPeriod::create($allEdate, $sdate); 
-      // $d_array_empty = [];
-      //   foreach($d_period as $period){
-      //     array_push($d_array_empty, date('Y-m-d',strtotime($period)));
-      //   }
-
-      //   $check_date_booking_id = RoomBookDate::whereIn('book_date',$d_array_empty)->distinct()->pluck('booking_id')->toArray();
-
-      //   $room = Room::withCount('room_numbers')->find($request->room_id);
-      //   $booking = Booking::withCount('assign_rooms')->whereIn('id',$check_date_booking_id)->where('rooms_id', $room->id)->get()->toArray();
-      //   $total_book_room = array_sum(array_column($booking, 'assign_rooms_count'));
-      //   $average_book_room = @$room->room_number_count -  $total_book_room ;
-
-      //   $toDate = Carbon::parse($request->check_in);
-      //   $fromDate = Carbon::parse($request->check_out);
-      //   $nights = $toDate->diffInDays($fromDate);
-
-      //   return response()->json(['available_room'=>$average_book_room, 'total_nights'=>$nights]);
-
-
-      try {
-        // Log the incoming request data
-        Log::info('Incoming request', $request->all());
-    
-        // Parse dates
-        $sdate = date('Y-m-d', strtotime($request->check_in));
-        $edate = date('Y-m-d', strtotime($request->check_out));
-        $allEdate = Carbon::create($edate)->subDay();
-        $d_period = CarbonPeriod::create($sdate, $allEdate); // Adjust date order if needed
-        $d_array_empty = [];
-        foreach ($d_period as $period) {
-            array_push($d_array_empty, $period->format('Y-m-d'));
+      $sdate = date('Y-m-d', $request->check_in);
+      $edate = date('Y-m-d', $request->check_out);
+      $allEdate =Carbon::create($edate)->subDay();
+      $d_period = CarbonPeriod::create($allEdate, $sdate); 
+      $d_array_empty = [];
+        foreach($d_period as $period){
+          array_push($d_array_empty, date('Y-m-d',strtotime($period)));
         }
-    
-        // Log parsed dates
-        Log::info('Parsed dates:', ['sdate' => $sdate, 'edate' => $edate, 'd_array_empty' => $d_array_empty]);
-    
-        // Fetch data from database
-        $check_date_booking_id = RoomBookDate::whereIn('book_date', $d_array_empty)->distinct()->pluck('booking_id')->toArray();
+
+        $check_date_booking_id = RoomBookDate::whereIn('book_date',$d_array_empty)->distinct()->pluck('booking_id')->toArray();
+
         $room = Room::withCount('room_numbers')->find($request->room_id);
-        $booking = Booking::withCount('assign_rooms')->whereIn('id', $check_date_booking_id)->where('rooms_id', $room->id)->get()->toArray();
-    
-        // Log database queries
-        Log::info('Database queries:', ['check_date_booking_id' => $check_date_booking_id, 'room' => $room, 'booking' => $booking]);
-    
-        $total_book_room = array_sum(array_column($booking, 'assign_rooms_count')) ?? 0;
-        $room_number_count = $room->room_number_count ?? 0;
-        $average_book_room = $room_number_count - $total_book_room;
-    
-        // Calculate nights
+        $booking = Booking::withCount('assign_rooms')->whereIn('id',$check_date_booking_id)->where('rooms_id', $room->id)->get()->toArray();
+        $total_book_room = array_sum(array_column($booking, 'assign_rooms_count'));
+        $average_book_room = @$room->room_number_count -  $total_book_room ;
+
         $toDate = Carbon::parse($request->check_in);
         $fromDate = Carbon::parse($request->check_out);
         $nights = $toDate->diffInDays($fromDate);
-    
-        // Log final results
-        Log::info('Final results:', ['available_room' => $average_book_room, 'total_nights' => $nights]);
-    
-        return response()->json(['available_room' => $average_book_room, 'total_nights' => $nights]);
-    
-    } catch (\Exception $e) {
-        // Log the exception
-        Log::error('CheckRoomAvailability error:', ['error' => $e->getMessage()]);
-        return response()->json(['error' => 'Server error, please try again later.'], 500);
-    }
+
+      return response()->json(['available_room' => $average_book_room, 'total_nights' => $nights]);
+
+
+
+
+
+
     
           }
       }

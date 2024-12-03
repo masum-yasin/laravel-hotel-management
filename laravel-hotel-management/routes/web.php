@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\RoomTypeController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\backend\RoomListController;
 
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,10 @@ Route::middleware(['auth','roles:admin'])->group(function(){
     Route::post('admin.password.updated',[AdminController::class, 'AdminPasswordUpdated'])->name('admin.password.updated');
 });
 // End Admin Middleware//
+
+Route::controller(RoomListController::class)->group(function(){
+    route::get('view/room/list', 'ViewRoomList')->name('view.room.list');
+});
 
 // Admin Login//
 Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login');
@@ -105,7 +110,7 @@ Route::controller(FrontendRoomController::class)->group(function(){
     Route::get('room/details/{id}','RoomDetailsPage');
     Route::get('/booking/','BookingSearch')->name('booking.search');
     Route::get('search/room/details/{id}', 'SearchRoomDetails')->name('search.room.details');
-    Route::post('/check_room_availability/','CheckRoomAvailability')->name('check_room_availability');
+    Route::get('/check_room_availability/','CheckRoomAvailability')->name('check_room_availability');
 });
 
 
@@ -116,7 +121,11 @@ Route::get('/checkout/','CheckOut')->name('checkout');
 Route::post('/booking/store','BookingStore')->name('user_booking_store');
 Route::post('/checkout/store', 'CheckoutStore')->name('checkout.store');
 Route::post('update/booking/status/{id}', 'UpdateBookingStatus')->name('update.booking.status');
-Route::post('assign_room/{id}', 'AssignRoom')->name('assign_room');
+Route::post('update/booking/{id}', 'UpdateBooking')->name('update.booking');
+Route::get('assign_room/{id}', 'AssignRoom')->name('assign_room');
+Route::GET('assign_room/store/{booking_id}/{room_number_id}', 'AssignRoomStore')->name('assign_room_store');
+
+Route::get('assign_room_delete/{id}', 'AssignRoomDelete')->name('assign_room_delete');
 
 });
 });
