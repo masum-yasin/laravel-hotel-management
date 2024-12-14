@@ -55,7 +55,9 @@ Route::middleware(['auth','roles:admin'])->group(function(){
 // End Admin Middleware//
 
 Route::controller(RoomListController::class)->group(function(){
-    route::get('view/room/list', 'ViewRoomList')->name('view.room.list');
+    Route::get('view/room/list', 'ViewRoomList')->name('view.room.list');
+    Route::get('add/roomlist', 'AddRoomList')->name('add.room.list');
+
 });
 
 // Admin Login//

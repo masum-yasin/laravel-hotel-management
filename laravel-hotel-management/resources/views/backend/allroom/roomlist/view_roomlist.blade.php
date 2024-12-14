@@ -1,4 +1,4 @@
-@extends('admin.admin_dashboard');
+@extends('admin.admin_dashboard')
 @section('title', 'Room View List')
 @section('admin')
 <div class="page-content">
@@ -17,7 +17,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group" style="display:flex justify-content:right">
-                <a href="{{ route('user_booking_store') }}">
+                <a href="{{ route('add.room.list') }}">
                     <i class="btn btn-primary px-5">Add Booking</i>
                 </a>
                 

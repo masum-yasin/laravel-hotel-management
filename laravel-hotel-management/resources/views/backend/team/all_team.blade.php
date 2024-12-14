@@ -1,4 +1,4 @@
-@extends('admin.admin_dashboard');
+@extends('admin.admin_dashboard')
 @section('title','All Team')
 @section('admin')
     <div class="page-content">

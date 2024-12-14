@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use App\Models\roomNumber;
+use App\Models\RoomType;
 
 class RoomListController extends Controller
 {
@@ -38,5 +39,10 @@ $room_number_list = roomNumber::with([
 return view('backend.allroom.roomlist.view_roomlist', compact('room_number_list'));
 
 
+  }
+
+  public function AddRoomList(){
+    $roomType = RoomType::get();
+    return view('backend.allroom.roomlist.add_roomlist', compact('roomType'));
   }
 }

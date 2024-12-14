@@ -176,21 +176,23 @@
                       @php
                           $assign_rooms = App\Models\BookingRoomList::with('room_number')->where('booking_id', $editData->id)->get();
                       @endphp
-                        @if (count( $assign_rooms) > 0)
+                        @if (count($assign_rooms) > 0)
                         <table class="table table-bordered">
                             <tr>
                                 <th>Room Number</th>
                                 <th>Action</th>
                             </tr>
-                           @foreach ($assign_rooms as $assign_room)
-                               <tr>
-                                <td>{{$assign_room->room_number->room_no}}</td>
-                                <td><a href="{{route('assign_room_delete',  $assign_room->id)}}" id="delete">Delete</a></td>
-                            </tr>
-                            @endforeach          
-                            
-                         </table>
-                         @endif
+                            @foreach ($assign_rooms as $assign_room)
+                                <tr>
+                                    <td>{{ $assign_room->room_number->room_no }}</td>
+                                    <td><a href="{{ route('assign_room_delete', $assign_room->id) }}" id="delete">Delete</a></td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @else
+                        <p style="text-align: center; font-weight: bold;" class="bg-danger text-white">No Data Found</p>
+                    @endif
+                    
                       {{-- ending responsive table --}}
                       <form action="{{route('update.booking.status', $editData->id)}}" method="post">
                         @csrf
