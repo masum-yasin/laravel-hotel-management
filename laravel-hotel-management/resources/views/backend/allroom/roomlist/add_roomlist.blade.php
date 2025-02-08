@@ -24,20 +24,23 @@
                     <div class="col-lg-12">
                         <div class="card-body p-4">
                             
-                            <form class="row g-3">
+                            <form class="row g-3" action="{{route('store.roomlist')}}" method="post">
+                                @csrf
                                 <div class="col-md-4">
-                                    <label for="input1" class="form-label">Room Type</label>
-                                    <select id="input7" class="form-select">
+                                    <label for="rootype_id" class="form-label">Room Type</label>
+                                    <select name="room_id" id="room_id" class="form-select">
                                         <option selected="">Choose...</option>
                                     @foreach ($roomType as $item)
-                                        <option >{{$item->name}}</option>
+                                    <option value="{{ $item->id }}" {{ collect(old('rootype_id'))->contains($item->id) ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
                                         @endforeach
                                         
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="input2" class="form-label">ChekcIn</label>
-                                    <input type="date" class="form-control" name="check_in" id="check_in" placeholder="Check In">
+                                    <label for="rootype_id" class="form-label">ChekcIn</label>
+                                    <input type="date" class="form-control" name="check_in" id="check_in" >
                                 </div>
                                 <div class="col-md-4">
                                     <label for="input2" class="form-label">CheckOut</label>
@@ -53,7 +56,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="input4" class="form-label">Guest</label>
-                                    <input type="text" name="number_of_person" class="form-control" id="number_of_person" placeholder="Email">
+                                    <input type="text" name="number_of_person" class="form-control" id="number_of_person" placeholder="Guest">
                                 </div>
                                 <h1 class="mt-3 mb-5 text-center">Customer Information</h1>
 
@@ -64,7 +67,8 @@
 
                                 <div class="col-md-4">
                                     <label for="input5" class="form-label">Email</label>
-                                    <input type="email" class="form-control"  placeholder="Eamil" value="{{old('email')}}">
+                                    <input type="email" class="form-control"  placeholder="Eamil" value="{{old('email')}}"
+                                    name="email">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="input6" class="form-label">Phone</label>
@@ -74,11 +78,11 @@
                                
                                 <div class="col-md-4">
                                     <label for="input6" class="form-label">Country</label>
-                                    <input type="number" class="form-control" name="country" value="{{old('country')}}" placeholder="Country">
+                                    <input type="text" class="form-control" name="country" value="{{old('country')}}" placeholder="Country">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="input6" class="form-label">State</label>
-                                    <input type="number" class="form-control" name="state" value="{{old('state')}}" placeholder="State">
+                                    <input type="text" class="form-control" name="state" value="{{old('state')}}" placeholder="State">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="input6" class="form-label">Zip Code</label>
@@ -86,7 +90,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <label for="input6" class="form-label">Address</label>
-                                    <textarea name="" class="form-control" name="address" rows="3" >{{old('address')}}</textarea>
+                                    <textarea name="address" class="form-control" name="address" rows="3" >{{old('address')}}</textarea>
                                     
                                 </div>
                                 
@@ -105,72 +109,57 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#image').change(function(e) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#showImage').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(e.target.files['0'])
-            });
-        });
-    </script>
 
-    {{-- javascript Validatin --}}
-    <script type="text/javascript">
-        $(document).ready(function (){
-            $('#myForm').validate({
-                rules: {
-                    name: {
-                        required : true,
-                    }, 
-                    position: {
-                        required : true,
-                    }, 
-                    facebook: {
-                        required : true,
-                    }, 
-                   
-                    image: {
-                        required : true,
-                    }, 
-                   
-                },
-                messages :{
-                    name: {
-                        required : 'Please Enter Team Name',
-                    }, 
-                     
-                    position: {
-                        required : 'Please Enter Team Position',
-                    }, 
-                     
-                    facebook: {
-                        required : 'Please Enter Team Facebook Link',
-                    }, 
-                     
-                    image: {
-                        required : 'Please Select Image',
-                    }, 
-                     
-                   
-                     
+    <script>
+        $(document).ready(function() {
+   $('#room_id').on('change', function(){
+    $('#check_in').val('');
+    $('#check_out').val('');
+    $('.availability').text('0');
+    4('#number_of_rooms').val('0');
+   })
+$('#check_out').on('change', function(){
+    getAvailability();
+})
+
+});
+
+
+
+
+
+function getAvailability(){
+    var check_in = $('#check_in').val();
+    var check_out = $('#check_out').val();
+    var room_id   = $('#room_id').val();
+    var startDate = new Date(check_in);
+    var endDate = new Date(check_out);
+    if(startDate > endDate){
+        alert('Invalid Date');
+        $('#check_out').val();
+        return false;
+    }
+
+    if(check_in != '' && check_out != '' && room_id != ''){
+         $.ajax({
+        url: "{{route('check_room_availability')}}",
+        type:"GET",
+        data: {room_id: room_id, check_in: check_in, check_out: check_out},
+        success: function (data) {
+            console.log(data);
     
-                },
-                errorElement : 'span', 
-                errorPlacement: function (error,element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight : function(element, errorClass, validClass){
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight : function(element, errorClass, validClass){
-                    $(element).removeClass('is-invalid');
-                },
-            });
-        });
-        
+            
+            $('.availability').text(data['available_room']);
+            $('#available_room').val(data['available_room']);
+        }
+    });
+    }
+    else{
+        alert('Field must be not empty');
+    }
+   
+
+}
     </script>
+   
 @endsection

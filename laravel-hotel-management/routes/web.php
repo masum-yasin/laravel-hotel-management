@@ -54,11 +54,7 @@ Route::middleware(['auth','roles:admin'])->group(function(){
 });
 // End Admin Middleware//
 
-Route::controller(RoomListController::class)->group(function(){
-    Route::get('view/room/list', 'ViewRoomList')->name('view.room.list');
-    Route::get('add/roomlist', 'AddRoomList')->name('add.room.list');
 
-});
 
 // Admin Login//
 Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login');
@@ -128,6 +124,14 @@ Route::get('assign_room/{id}', 'AssignRoom')->name('assign_room');
 Route::GET('assign_room/store/{booking_id}/{room_number_id}', 'AssignRoomStore')->name('assign_room_store');
 
 Route::get('assign_room_delete/{id}', 'AssignRoomDelete')->name('assign_room_delete');
+
+});
+
+
+Route::controller(RoomListController::class)->group(function(){
+    Route::get('view/room/list', 'ViewRoomList')->name('view.room.list');
+    Route::get('add/roomlist', 'AddRoomList')->name('add.room.list');
+    Route::post('store/room/list', 'StoreRoomList')->name('store.roomlist');
 
 });
 });

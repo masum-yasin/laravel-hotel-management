@@ -3,7 +3,7 @@
 @section('admin')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
     <div class="page-content">
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
