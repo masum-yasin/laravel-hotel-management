@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BookmailConfirm;
 use App\Models\Booking;
 use App\Models\Room;
 use App\Models\RoomBookDate;
@@ -10,9 +11,12 @@ use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\BookingRoomList;
 use App\Models\roomNumber;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 
@@ -44,14 +48,14 @@ class BookingController extends Controller
             'roomNumber' =>'required',
             
         ]);
-        // if($request->available_room < $request->roomNumber){
-        //     $notification = array(
-        //         'message' => 'Something Want to Wrong',
-        //         'alert-type' => 'error'
-        //         );
+        if($request->available_room < $request->roomNumber){
+            $notification = array(
+                'message' => 'Something Want to Wrong',
+                'alert-type' => 'error'
+                );
               
-        //         return redirect()->back()->with($notification);
-        // }
+                return redirect()->back()->with($notification);
+        }
         
         Session::forget('book_date');
         $data = array();
@@ -161,18 +165,61 @@ $editData = Booking::with('room')->find($id);
 return view('backend.booking.edit_booking',compact('editData'));
 }
 
-public function UpdateBookingStatus(Request $request, $id){
- $booking = Booking::find($id);
- $booking->payment_status = $request->payment_status;
- $booking->status = $request->status;
- $booking->save();
+public function UpdateBookingStatus(Request $request, $id)
+{
+    Log::info("Updating booking status for ID: " . $id);
 
- $notification = array(
-    'message' => 'Booking status Successfully Update',
-    'alert-type' => 'success'
-    );
-  
-    return redirect()->back()->with($notification);
+    $booking = Booking::find($id);
+
+    if (!$booking) {
+        Log::error("Booking with ID {$id} not found!");
+        return redirect()->back()->with([
+            'message' => 'Booking not found!',
+            'alert-type' => 'error'
+        ]);
+    }
+
+    $booking->payment_status = $request->payment_status;
+    $booking->status = $request->status;
+    $booking->save();
+
+    // Log updated booking details
+    Log::info("Booking updated successfully: ", $booking->toArray());
+
+    // Validate and prepare mail data
+    $data = [
+        'check_in'  => $booking->check_in ?? '',
+        'check_out' => $booking->check_out ?? '',
+        'name'      => $booking->name ?? '',
+        'email'     => $booking->email ?? '',
+        'phone'     => $booking->phone ?? '',
+    ];
+    Log::info($data);
+
+    // Ensure data is properly structured before passing to Mailable
+    if (empty($data['check_in']) || empty($data['check_out']) || empty($data['name']) || empty($data['email']) || empty($data['phone'])) {
+        Log::error("Booking data is incomplete: " . json_encode($data));
+        return redirect()->back()->with([
+            'message' => 'Booking data is incomplete!',
+            'alert-type' => 'error'
+        ]);
+    }
+
+    // Send email only if email is available
+    if (!empty($booking->email)) {
+        try {
+            Mail::to($booking->email)->send(new BookmailConfirm($data));
+        } catch (\Exception $e) {
+            Log::error("Mail sending failed: " . $e->getMessage());
+        }
+    } else {
+        Log::warning("No email found for booking ID: " . $id);
+    }
+
+    return redirect()->back()->with([
+        'message' => 'Booking status successfully updated',
+        'alert-type' => 'success'
+    ]);
 }
 
 
@@ -274,6 +321,34 @@ public function AssignRoomDelete($id){
         'alert-type' => 'success', 
     );
     return redirect()->back()->with($notification);
+}
+
+
+public function DownloadInvoice(Request $request, $id){
+$editData  = Booking::with('room')->find($id);
+$pdf = Pdf::loadView('backend.booking.booking_invoice', compact('editData'))->setPaper('a4')->setOption([
+    "temDir" => public_path(),
+    "chroot" => public_path(),
+]);
+return $pdf->download('invoice.pdf');
+
+}
+
+public function UserBookingList(){
+    $id = Auth::user()->id;
+    $userBooking = Booking::where('user_id', $id)->orderBy('id', 'desc')->get();
+    return view('frontend.Dashboard.userBooking',[
+        'userBooking' => $userBooking,
+    ]); 
+}
+
+public function UserPdfInvoice($id){
+    $editData  = Booking::with('room')->find($id);
+    $pdf = Pdf::loadView('backend.booking.booking_invoice', compact('editData'))->setPaper('a4')->setOption([
+        "temDir" => public_path(),
+        "chroot" => public_path(),
+    ]);
+    return $pdf->download('invoice.pdf');
 }
 }   
 

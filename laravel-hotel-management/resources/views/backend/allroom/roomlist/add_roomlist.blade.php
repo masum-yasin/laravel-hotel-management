@@ -49,7 +49,9 @@
                                 <div class="col-md-4">
                                     <label for="input3" class="form-label">Room</label>
                                     <input type="number" class="form-control" id="input3" name="number_of_rooms" id="number_of_rooms" placeholder="Room">
-                                    <input type="hidden" class="form-control" name="available_room">
+                                    <input type="hidden" class="form-control" id="available_room" name="available_room">
+
+
                                 <div class="mt-2">
                                     <label for="" >Availability<span class="text-success availability"></span></label>
                                 </div>
@@ -110,56 +112,60 @@
         </div>
     </div>
 
-    <script>
+   
+ <script>
         $(document).ready(function() {
-   $('#room_id').on('change', function(){
-    $('#check_in').val('');
-    $('#check_out').val('');
-    $('.availability').text('0');
-    4('#number_of_rooms').val('0');
-   })
-$('#check_out').on('change', function(){
-    getAvailability();
-})
+    $('#room_id').on('change', function(){
+        $('#check_in').val('');
+        $('#check_out').val('');
+        $('.availability').text('0');
+        $('#number_of_rooms').val('0'); // Fixed this line
+    });
 
+    $('#check_out').on('change', function(){
+        getAvailability();
+    });
 });
-
-
-
-
 
 function getAvailability(){
     var check_in = $('#check_in').val();
     var check_out = $('#check_out').val();
-    var room_id   = $('#room_id').val();
+    var room_id = $('#room_id').val();
     var startDate = new Date(check_in);
     var endDate = new Date(check_out);
-    if(startDate > endDate){
+    
+    if (startDate > endDate) {
         alert('Invalid Date');
-        $('#check_out').val();
+        $('#check_out').val('');
         return false;
     }
 
-    if(check_in != '' && check_out != '' && room_id != ''){
-         $.ajax({
-        url: "{{route('check_room_availability')}}",
-        type:"GET",
-        data: {room_id: room_id, check_in: check_in, check_out: check_out},
-        success: function (data) {
-            console.log(data);
-    
-            
-            $('.availability').text(data['available_room']);
-            $('#available_room').val(data['available_room']);
-        }
-    });
+    if (check_in !== '' && check_out !== '' && room_id !== '') {
+        $.ajax({
+    url: "{{ route('check_room_availability') }}",
+    type: "POST",
+    data: {
+        _token: $('meta[name="csrf-token"]').attr('content'), // Get CSRF token dynamically
+        room_id: room_id,
+        check_in: check_in,
+        check_out: check_out
+    },
+    dataType: "json",
+    success: function (data) {
+        console.log(data);
+        $('.availability').text(data['available_room']);
+        $('#available_room').val(data['available_room']);
+    },
+    error: function (xhr, status, error) {
+        console.error("AJAX Error:", xhr.responseText);
     }
-    else{
-        alert('Field must be not empty');
-    }
-   
+});
 
+    } else {
+        alert('Field must not be empty');
+    }
 }
+
     </script>
    
 @endsection

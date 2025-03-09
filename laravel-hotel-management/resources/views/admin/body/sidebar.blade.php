@@ -85,6 +85,21 @@
                
             </ul>
         </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                </div>
+                <div class="menu-title">Testimonial</div>
+            </a>
+            <ul>
+               
+                <li> <a href="{{route('alltestimonial')}}"><i class='bx bx-radio-circle'></i>All Testimonial</a>
+                </li>
+                <li> <a href="{{route('view.room.list')}}"><i class='bx bx-radio-circle'></i>Add Testimonial</a>
+                </li>
+               
+            </ul>
+        </li>
        
        
         

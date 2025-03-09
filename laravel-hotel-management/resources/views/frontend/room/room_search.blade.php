@@ -38,7 +38,7 @@
                     @if ($average_room > 0 && old('persion') <= $item->total_adult)
                         <div class="col-lg-4 col-md-6">
                             <div class="room-card">
-                                <a href="room-details.html">
+                                <a href="{{route('search.room.details', $item->id .'?check_in='.old('check_in').'&check_out='.old('check_out').'&persion='.old('persion'))}}">
                                     <img src="{{ 'upload/roomimg/' . $item->image }}" alt="Images" style="width: 550px"
                                         height="330px">
                                 </a>

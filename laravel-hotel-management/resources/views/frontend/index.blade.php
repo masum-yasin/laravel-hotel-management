@@ -32,9 +32,9 @@
 
                         <div class="col-lg-3 col-md-3">
                             <div class="form-group">
-                                <label>CHECK IN TIME</label>
+                                <label>CHECK Out TIME</label>
                                 <div class="input-group">
-                                    <input autocomplete="off" type="text" required name="check_in" class="form-control dt_picker" placeholder="yyyy-mm-dd">
+                                    <input autocomplete="off" type="text" required name="check_out" class="form-control dt_picker" placeholder="yyyy-mm-dd">
                                     <span class="input-group-addon"></span>
                                 </div>
                                 <i class='bx bxs-chevron-down'></i>    
@@ -94,7 +94,7 @@
 
 
   <script>
-         $('.dt_picker').datepicker({
+     $('.dt_picker').datepicker({
         dateFormat: 'yy-mm-dd',
         autoclose: true,
         minDate: 0
@@ -123,7 +123,7 @@
     }).on('changeDate', function (selected) {
         console.log('ok')
     });
-    </script> 
+  </script>
 
 
    

@@ -66,15 +66,15 @@ if($request->check_in == $request->check_out){
                 return redirect()->back()->with($notification);
 }
 
-// if($request->available_room < $request->number_of_rooms){
-//   $request->flash();
-//   $notification = array(
-//     'message' => 'You Enter Maximum Room Number',
-//     'alert-type' => 'error'
-//     );
+if($request->available_room < $request->number_of_rooms){
+  $request->flash();
+  $notification = array(
+    'message' => 'You Enter Maximum Room Number',
+    'alert-type' => 'error'
+    );
   
-//     return redirect()->back()->with($notification);
-// }
+    return redirect()->back()->with($notification);
+}
 $room = Room::find($request['room_id']);
 if($room->room_capacity < $request->number_of_person){
   $notification = array(

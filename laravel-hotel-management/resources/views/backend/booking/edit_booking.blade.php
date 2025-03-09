@@ -219,6 +219,7 @@
                             </div>
                             <div class="col-md-12" style="margin-top: 20px">
                                 <button type="submit" class="btn btn-primary">Update</button>
+                                <a href="{{route('download.invoice', $editData->id)}}" class="btn btn-warning px-2 radious-10"><i class="lni lni-download"></i> Download Invoice</a>
                             </div>
                         </div>
                       </form>
@@ -327,19 +328,11 @@
 
     
 
-    {{-- <script>
-        var assignRoomUrl = "{{ route('assign_room', $editData->id) }}";
-        console.log(assignRoomUrl); // Check this output in the browser console
-    </script> --}}
-
-<script>
-
-
-$(document).ready(function() {
-    getAvailability();
+   <script>
+    $(document).ready(function() {
     var assignRoomUrl = "{{ route('assign_room', $editData->id) }}";
-     
 
+    // Show modal when clicking on 'Assign Room' button
     $('.assign_room').on('click', function() {
         $.ajax({
             url: assignRoomUrl,
@@ -350,72 +343,35 @@ $(document).ready(function() {
         });
         return false;
     });
+
+    // Function to get room availability
+    function getAvailability() {
+        var check_in = $('#check_in').val();
+        var check_out = $('#check_out').val();
+        var room_id = "{{$editData->rooms_id}}";
+
+        $.ajax({
+            url: "{{route('check_room_availability')}}",
+            type: "POST",
+            data: {room_id: room_id, check_in: check_in, check_out: check_out},
+            success: function(data) {
+                console.log(data);
+                // Update availability text and hidden input
+                $('.availability').text(data['available_room']);
+                $('#available_room').val(data['available_room']);
+            }
+        });
+    }
+
+    // Call getAvailability on page load
+    getAvailability();
+
+    // Bind getAvailability to the change events of check_in and check_out
+    $('#check_in, #check_out').on('change', function() {
+        getAvailability();
+    });
 });
 
-
-
-
-
-function getAvailability(){
-    var check_in = $('#check_in').val();
-    var check_out = $('#check_out').val();
-    var room_id   = "{{$editData->rooms_id}}";
-
-    $.ajax({
-        url: "{{route('check_room_availability')}}",
-        type:"GET",
-        data: {room_id: room_id, check_in: check_in, check_out: check_out},
-        success: function (data) {
-            console.log(data);
-    
-            
-            $('.availability').text(data['available_room']);
-            $('#available_room').val(data['available_room']);
-        }
-    });
-
-}
-
-// $(document).ready(function(){
-//     function getAvailability() {
-//     var check_in = $('#check_in').val();
-//     var check_out = $('#check_out').val();
-//     var room_id = "{{$editData->rooms_id}}";
-
-//     $.ajax({
-//         url: "{{route('check_room_availability')}}",
-//         type: "GET",
-//         data: {
-//             room_id: room_id,
-//             check_in: check_in,
-//             check_out: check_out
-//         },
-//         success: function (data) {
-//             console.log('AJAX Response:', data);
-
-//             // Check if response contains `available_room`
-//             if (data.available_room !== undefined) {
-//                 $('.availability').text(data.available_room).css('display', 'inline'); // Update text
-//                 $('#available_room').val(data.available_room); // Update hidden input
-//             } else {
-//                 console.error('Available room data not found in response.');
-//                 $('.availability').text('Not Available').css('display', 'inline');
-//             }
-//         },
-//         error: function (xhr, status, error) {
-//             console.error('AJAX Error:', xhr.responseText);
-//             $('.availability').text('Error Fetching Availability').css('display', 'inline');
-//         }
-//     });
-// }
-// })
-
-
-
-
-
-
-  
 </script>
     
 @endsection

@@ -1,7 +1,8 @@
 @extends('frontend.main_master')
 @section('main')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 
     <!-- Inner Banner -->
     <div class="inner-banner inner-bg10">
@@ -97,8 +98,8 @@
                                                 @endfor
                                             </select>
                                         </div>
-                                        {{-- <input type="" name="available_room" id="available_room">
-                                        <p class="available_room"></p> --}}
+                                        <input type="hidden" name="available_room" id="available_room">
+                                        <p class="available_room"></p>
                                     </div>
                                     <div class="col-lg-12">
                                         <table class="table">
@@ -107,21 +108,21 @@
                                                     <td>
                                                         <p>SubTotal</p>
                                                     </td>
-                                                    <td style="text-align: right"><span class="t_subtotal text-danger">34</span></td>
+                                                    <td style="text-align: right"><span class="t_subtotal text-danger">0</span></td>
 
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <p>Discount</p>
                                                     </td>
-                                                    <td style="text-align: right"><span class="t_discount text-danger">34</span></td>
+                                                    <td style="text-align: right"><span class="t_discount text-danger">0</span></td>
 
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <p>Total</p>
                                                     </td>
-                                                    <td style="text-align: right"><span class="t_g_total text-danger">34</span></td>
+                                                    <td style="text-align: right"><span class="t_g_total text-danger">0</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -352,99 +353,99 @@
 
     <script>
   
-    $(document).ready(function() {
-       
-
-        var check_in = "{{ old('check_in') }}";
-       
-        var check_out = "{{ old('check_out') }}";
-      
-        var room_id = "{{ $room_id }}";
-
-
-        if (check_in !== '' && check_out !== '') {
-            getAvailability(check_in, check_out, room_id);
-        }
-
-        $('#check_out').on('change', function() {
-        
-       
-            var check_out = $(this).val();
-            var check_in = $("#check_in").val();
-
-            if (check_in !== '' && check_out !== '') {
-                getAvailability(check_in, check_out, room_id);
-            }
-        });
-
-        $('.roomNumber').on('change', function() {
-            var check_out = $('#check_out').val();
-            var check_in = $('#check_in').val();
+        $(document).ready(function() {
            
+    
+            var check_in = "{{ old('check_in') }}";
+           
+            var check_out = "{{ old('check_out') }}";
+          
+            var room_id = "{{ $room_id }}";
+    
+    
             if (check_in !== '' && check_out !== '') {
                 getAvailability(check_in, check_out, room_id);
             }
-        });
-
-        function getAvailability(check_in, check_out, room_id) {
-            $.ajax({
-                url: "{{ route('check_room_availability') }}",
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    room_id: rooms_id,
-                    check_in: check_in,
-                    check_out: check_out
-                },
-                success: function(data) {
-                    console.log(data); // For debugging
-                    $('.available_room').html('Availability: <span class="text-success">'+data['available_room']+' Rooms</span>');
-                    $('#available_room').val(data['available_room']);
-
-                    
-                    price_calculate(data.total_nights);
-                },
-               
+    
+            $('#check_out').on('change', function() {
+            
+           
+                var check_out = $(this).val();
+                var check_in = $("#check_in").val();
+    
+                if (check_in !== '' && check_out !== '') {
+                    getAvailability(check_in, check_out, room_id);
+                }
             });
-        }
-
-        function price_calculate(total_nights) {
-            var room_price = parseFloat($('#room_price').val());
-          
-            var room_discount = parseFloat($('#room_discount').val());
-            var select_room = parseInt($('#select_room').val());
-
-            var sub_total = room_price * total_nights * select_room;
-            var discount_price = (room_discount / 100) * sub_total;
-            var grand_total = sub_total - discount_price;
-
-            $('.t_subtotal').text(sub_total.toFixed(2));
-            $('.t_discount').text(discount_price.toFixed(2));
-            $('.t_g_total').text(grand_total.toFixed(2));
-        }
-
-        $('#bk_form').on('submit', function() {
-            var available_room = parseInt($('#available_room').val());
-            var select_room = parseInt($('#select_room').val());
-
-            // if (select_room > available_room) {
-            //     alert('Sorry, you selected more rooms than available.');
-            //     return false;
-            // }
-
-            var number_person = parseInt($('#number_person').val());
-            var total_adult = parseInt($('#total_adult').val());
-
-            if (number_person > total_adult) {
-                alert('Sorry, you selected more persons than allowed.');
-                return false;
+    
+            $('.roomNumber').on('change', function() {
+                var check_out = $('#check_out').val();
+                var check_in = $('#check_in').val();
+               
+                if (check_in !== '' && check_out !== '') {
+                    getAvailability(check_in, check_out, room_id);
+                }
+            });
+    
+            function getAvailability(check_in, check_out, room_id) {
+                $.ajax({
+                    url: "{{ route('check_room_availability') }}",
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        room_id: room_id,
+                        check_in: check_in,
+                        check_out: check_out
+                    },
+                    success: function(data) {
+                        console.log(data); // For debugging
+                        $('.available_room').html('Availability: <span class="text-success">'+data['available_room']+' Rooms</span>');
+                        $('#available_room').val(data['available_room']);
+    
+                        
+                        price_calculate(data.total_nights);
+                    },
+                   
+                });
             }
-        });
-    })
-
-    </script>
+    
+            function price_calculate(total_nights) {
+                var room_price = parseFloat($('#room_price').val());
+              
+                var room_discount = parseFloat($('#room_discount').val());
+                var select_room = parseInt($('#select_room').val());
+    
+                var sub_total = room_price * total_nights * select_room;
+                var discount_price = (room_discount / 100) * sub_total;
+                var grand_total = sub_total - discount_price;
+    
+                $('.t_subtotal').text(sub_total.toFixed(2));
+                $('.t_discount').text(discount_price.toFixed(2));
+                $('.t_g_total').text(grand_total.toFixed(2));
+            }
+    
+            $('#bk_form').on('submit', function() {
+                var available_room = parseInt($('#available_room').val());
+                var select_room = parseInt($('#select_room').val());
+    
+                if (select_room > available_room) {
+                    alert('Sorry, you selected more rooms than available.');
+                    return false;
+                }
+    
+                var number_person = parseInt($('#number_person').val());
+                var total_adult = parseInt($('#total_adult').val());
+    
+                if (number_person > total_adult) {
+                    alert('Sorry, you selected more persons than allowed.');
+                    return false;
+                }
+            });
+        })
+    
+        </script>
 
 
 @endsection

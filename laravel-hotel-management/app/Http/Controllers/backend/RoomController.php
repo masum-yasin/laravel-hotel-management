@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\roomNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
 class RoomController extends Controller
@@ -22,88 +23,75 @@ class RoomController extends Controller
     }
     // Update For Room
 
-    public function UpdateRoom(Request $request,$id){
-        $room =Room::find($id);
-        $room->roomtype_id = $room->roomtype_id;
-        $room->total_adult = $request->total_adult;
-        $room->total_child = $request->total_child;
-        $room->price = $request->price;
-        $room->size = $request->size;
-        $room->discount = $request->discount;
-        $room->room_capacity= $request->room_capacity;
-        $room->view = $request->view;
-        $room->bed_style = $request->bed_style;
-        $room->short_desc = $request->short_desc;
-        $room->description = $request->description;
-        $room->short_desc = $request->short_desc;
-        $room->status = 1;
+    public function UpdateRoom(Request $request, $id)
+{
+    Log::info($request->all());
+    $room = Room::find($id);
+    
+    // Update room details
+    $room->roomtype_id   = $room->roomtype_id; // No changes?
+    $room->total_adult   = $request->total_adult;
+    $room->total_child   = $request->total_child;
+    $room->price         = $request->price;
+    $room->size          = $request->size;
+    $room->discount      = $request->discount;
+    $room->room_capacity = $request->room_capacity;
+    $room->view          = $request->view;
+    $room->bed_style     = $request->bed_style;
+    $room->short_desc    = $request->short_desc;
+    $room->description   = $request->description;
+    $room->status        = 1;
 
-        // Update Single Image//
-        if($request->file('image')){
-            $image = $request->file('image');
-        
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(550,850)->save('upload/roomimg/'.$name_gen);
-          $room['image'] = $name_gen;
-     
-        }
-        $room->save();
-       
- 
+    // Update Single Image
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        Image::make($image)->resize(550, 850)->save('upload/roomimg/' . $name_gen);
+        $room->image = $name_gen;
+    }
+    
+    $room->save();
 
-        // Update for facility table//
-    if($request->facility_name == NULL){
-        $notification = array(
-            'message' => 'Sorry! Not Any Basic facility Item Select',
-            'alert-type' => 'error', 
-        );
+    // Update facility table
+    if ($request->facility_name == NULL) {
+        $notification = [
+            'message'    => 'Sorry! Not Any Basic facility Item Selected',
+            'alert-type' => 'error',
+        ];
         return redirect()->back()->with($notification);
-    }
-    else {
-      Facility::where('rooms_id',$id)->delete();
-      $facilities = count($request->facility_name);
-      for($i = 0; $i<$facilities; $i++ ){
-        $fcount = new Facility();
-        $fcount->rooms_id = $room->id;
-        $fcount->facility_name = $request->facility_name[$i];
-        $fcount->save();
-      } 
-    //   end for
-     
-    }
-    // end else
-  
-
-    // Update Multi Image//
-
-        if ($room->save()) {
-        $files = $request->file('multi_img'); // Use file() instead of multi_img directly
-        if (!empty($files)) {
-            $subimage = MultiImage::where('rooms_id', $id)->get()->toArray();
-            MultiImage::where('rooms_id', $id)->delete();
-            foreach ($files as $file) {
-                $imgName =date('YmdHi') . $file->getClientOriginalName();
-                $file->move('upload/roomimg/multi_img/', $imgName);
-                $subimage = new MultiImage();
-                $subimage->rooms_id = $room->id;
-                $subimage->multi_img = $imgName;
-                $subimage->save();
-            }
+    } else {
+        // Remove old facilities
+        Facility::where('rooms_id', $id)->delete();
+        foreach ($request->facility_name as $facilityName) {
+            $facility = new Facility();
+            $facility->rooms_id = $room->id;
+            $facility->facility_name = $facilityName;
+            $facility->save();
         }
     }
-        
 
-
-// end if
-
-   
-        $notification = array(
-            'message' => 'Room Updated Successfully',
-            'alert-type' => 'success', 
-        );
-        return redirect()->back()->with($notification);
-
+    // Update Multi Image
+    if ($request->hasFile('multi_img')) {
+        // Delete existing multi images
+        MultiImage::where('rooms_id', $id)->delete();
+        foreach ($request->file('multi_img') as $file) {
+            $imgName = date('YmdHi') . $file->getClientOriginalName();
+            $file->move('upload/roomimg/multi_img/', $imgName);
+            
+            $multiImage = new MultiImage();
+            $multiImage->rooms_id = $room->id;
+            $multiImage->multi_img = $imgName;
+            $multiImage->save();
+        }
     }
+    
+    $notification = [
+        'message'    => 'Room Updated Successfully',
+        'alert-type' => 'success',
+    ];
+    
+    return redirect()->back()->with($notification);
+}
 
 
 

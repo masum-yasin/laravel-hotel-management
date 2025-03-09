@@ -1,9 +1,10 @@
 @extends('admin.admin_dashboard')
 @section('admin')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lineicons@2.0.1/dist/lineicons.min.css">
 
-
-    <div class="page-content">
+    
+<div class="page-content">
         <div class="container">
             <div class="main-body">
                 <div class="row">
@@ -66,20 +67,24 @@
 
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="input4" class="form-label">Gellery Image</label>
+                                        <label for="input4" class="form-label">Gallery Image</label>
                                         <input type="file" class="form-control" id="multiImg" name="multi_img[]"
                                             accept="image/jpeg, image/jpg, image/gif, image/png" multiple>
-
-
+                                    
                                         @foreach ($multiImage as $item)
-                                            <img src="{{ !empty($item->image) ? url('upload/roomimg/multi_img/' . $item->image) : url('upload/no_image.jpg') }}"
-                                                class="rounded-circle p-1 bg-primary" alt="" width="60px"
-                                                height="50px">
-                                            <a href="{{ route('multi.image.delete', $item->id) }}"><i
-                                                    class="lni lni-close"></i></a>
+                                            <div class="image-container" style="position: relative; display: inline-block;">
+                                                <img src="{{ !empty($item->image) ? url('upload/roomimg/multi_img/' . $item->image) : url('upload/no_image.jpg') }}"
+                                                    class="rounded-circle p-1 bg-primary" alt="" width="60px" height="50px">
+                                    
+                                                <!-- Delete icon with absolute positioning -->
+                                                <a href="{{ route('multi.image.delete', $item->id) }}" style="position: absolute; top: 0; right: 0; background-color: rgba(0, 0, 0, 0.5); padding: 5px; border-radius: 50%;">
+                                                    <i class="lni lni-close" style="font-size: 20px; color: white;"></i>
+                                                </a>
+                                            </div>
                                         @endforeach
                                         <div class="row" id="preview_img"></div>
                                     </div>
+                                    
 
 
 
@@ -162,7 +167,8 @@
                                                     id="basic_facility_section_remove">
                                                     <div class="row add_item">
                                                         <div class="col-md-8">
-                                                            <labelz for="facility_name" class="form-label"> Room Facilities
+                                                            <labelz for="facility_name" class="form-label"> Room
+                                                                Facilities
                                                             </labelz>
                                                             <select name="facility_name[]" id="facility_name"
                                                                 class="form-control">
@@ -352,15 +358,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($allRoomNumber as $key=> $item)
+                                        @foreach ($allRoomNumber as $key => $item)
                                             <tr>
-                                                <th>{{++$key}}</th>
+                                                <th>{{ ++$key }}</th>
                                                 <td>{{ $item->room_no }}</td>
                                                 <td>{{ $item->status }}</td>
                                                 <td class="d-flex; gap-3">
-                                                    <a href="{{route('edit.roomno', $item->id) }}"><i
+                                                    <a href="{{ route('edit.roomno', $item->id) }}"><i
                                                             class="btn btn-warning">Edit</i></a>
-                                                    <a href="{{route('delete.roomno', $item->id)}}" id="delete"><i
+                                                    <a href="{{ route('delete.roomno', $item->id) }}" id="delete"><i
                                                             class="btn btn-danger p-2">Delete</i></a>
                                                 </td>
                                             </tr>
@@ -494,4 +500,8 @@
 
 
     <!--========== End of Basic Plan Facilities ==============-->
+
+
+
+    
 @endsection

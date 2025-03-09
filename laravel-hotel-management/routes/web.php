@@ -8,7 +8,7 @@ use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\RoomListController;
-
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +77,13 @@ Route::get('team/delete/{id}',"TeamDelete")->name('team.delete');
     
     }); 
 
+    // Testimonial Rotue
+    
+    Route::controller(TestimonialController::class)->group(function(){
+        Route::get('alltestimonial', 'Alltestimonial')->name('alltestimonial');
+        Route::any('testimonial.add', 'TestimonialAdd')->name('testimonial.add');
+    });
+
     Route::controller(RoomTypeController::class)->group(function(){
     Route::get('room/type/list','RoomTypeList')->name('room.type.list');
     Route::get('add/room/type','AddRoomType')->name('add.room.type');
@@ -100,6 +107,9 @@ Route::controller(RoomController::class)->group(function(){
 Route::controller(BookingController::class)->group(function(){
 Route::get('booking/list','BookingList')->name('booking.list');
 Route::get('edit_booking/{id}', 'EditBooking')->name('edit_booking');
+Route::get('download/invice/{id}','DownloadInvoice')->name('download.invoice');
+
+
 });
 });
 
@@ -108,10 +118,13 @@ Route::controller(FrontendRoomController::class)->group(function(){
     Route::get('room/details/{id}','RoomDetailsPage');
     Route::get('/booking/','BookingSearch')->name('booking.search');
     Route::get('search/room/details/{id}', 'SearchRoomDetails')->name('search.room.details');
-    Route::get('/check_room_availability/','CheckRoomAvailability')->name('check_room_availability');
+
+    Route::post('/check_room_availability', 'CheckRoomAvailability')->name('check_room_availability');
 });
 
 
+
+// Middleware User must access for user login here
 
 Route::middleware(['auth'])->group(function(){
 Route::controller(BookingController::class)->group(function(){
@@ -122,9 +135,12 @@ Route::post('update/booking/status/{id}', 'UpdateBookingStatus')->name('update.b
 Route::post('update/booking/{id}', 'UpdateBooking')->name('update.booking');
 Route::get('assign_room/{id}', 'AssignRoom')->name('assign_room');
 Route::GET('assign_room/store/{booking_id}/{room_number_id}', 'AssignRoomStore')->name('assign_room_store');
-
 Route::get('assign_room_delete/{id}', 'AssignRoomDelete')->name('assign_room_delete');
 
+
+// 
+Route::get('user.bookinglist', 'UserBookingList')->name('user.bookinglist');
+Route::get('userpdf/invoice/{id}','UserPdfInvoice')->name('userpdf.invoice');
 });
 
 
