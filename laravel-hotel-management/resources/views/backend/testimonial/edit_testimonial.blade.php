@@ -23,15 +23,17 @@
 
                     <div class="col-lg-8">
                         <div class="card">
-                            <form id="myForm" action="{{route('testimonialStore')}}" method="post" enctype="multipart/form-data">
+                            <form id="myForm" action="{{route('testimonialUpdate')}}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                <input type="hidden" name="id" value="{{$testimonial->id}}">
                                 <div class="card-body">
+                                    
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Name</h6>
                                         </div>
                                         <div class="form-group col-sm-9 text-secondary">
-                                            <input type="text" name="name" class="form-control" />
+                                            <input type="text" name="name" class="form-control" value="{{$testimonial->name}}"/>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -40,7 +42,7 @@
                                         </div>
                                         <div class="form-group col-sm-9 text-secondary">
                                             <input type="text" name="city" class="form-control"
-                                                />
+                                               value="{{$testimonial->city}}" />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -48,7 +50,7 @@
                                             <h6 class="mb-0">Message</h6>
                                         </div>
                                         <div class="form-group col-sm-9 text-secondary">
-                                            <textarea class="form-control" id="input40" name="message" rows="3" placeholder="Message"></textarea>
+                                            <textarea class="form-control" id="input40" name="message" rows="3" placeholder="Message">{{$testimonial->message}}</textarea>
                                                 
                                         </div>
                                     </div>
@@ -68,7 +70,7 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <img id="showImage"
-                                                src="{{url('upload/no_image.jpg') }}"
+                                                src="{{asset($testimonial->image)}}"
                                                 class="rounded-circle p-1 bg-primary" alt="" width="120px">
                                         </div>
                                     </div>
@@ -107,34 +109,30 @@
                     name: {
                         required : true,
                     }, 
-                    position: {
+                    city: {
                         required : true,
                     }, 
-                    facebook: {
+                    message: {
                         required : true,
                     }, 
                    
-                    image: {
-                        required : true,
-                    }, 
+                   
                    
                 },
                 messages :{
                     name: {
-                        required : 'Please Enter Team Name',
+                        required : 'Please Enter Testimonial Name',
                     }, 
                      
-                    position: {
-                        required : 'Please Enter Team Position',
+                    city: {
+                        required : 'Please Enter Testimonial city',
                     }, 
                      
-                    facebook: {
-                        required : 'Please Enter Team Facebook Link',
+                    message: {
+                        required : 'Please Enter Testimonial message',
                     }, 
                      
-                    image: {
-                        required : 'Please Select Image',
-                    }, 
+                     
                      
                    
                      

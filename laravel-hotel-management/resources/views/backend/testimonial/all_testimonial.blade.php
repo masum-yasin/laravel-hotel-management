@@ -48,8 +48,8 @@
 										<td>{{$item->name}}</td>
 										<td>{{$item->city}}</td>
 										<td class="d-flex; gap-3">
-											<a href="{{route('team.edit',$item->id)}}"><i class="btn btn-warning p-2">Edit</i></a>
-											<a href="{{route('team.delete',$item->id)}}" id="delete"><i class="btn btn-danger p-2" >Delete</i></a>
+											<a href="{{route('testimonialEdit',$item->id)}}"><i class="btn btn-warning p-2">Edit</i></a>
+											<a href="{{route('testimonialDelete',$item->id)}}" id="delete"><i class="btn btn-danger p-2" >Delete</i></a>
 										</td>
 									</tr>
 									@endforeach

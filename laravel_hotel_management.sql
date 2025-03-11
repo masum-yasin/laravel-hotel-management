@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 03, 2024 at 05:59 PM
+-- Host: 127.0.0.1:3307
+-- Generation Time: Mar 11, 2025 at 05:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,11 +63,16 @@ CREATE TABLE `bookings` (
 INSERT INTO `bookings` (`id`, `rooms_id`, `user_id`, `check_in`, `check_out`, `persion`, `number_of_rooms`, `total_night`, `actual_price`, `subtotal`, `discount`, `total_price`, `payment_method`, `transation_id`, `payment_status`, `name`, `email`, `phone`, `address`, `country`, `state`, `zip_code`, `status`, `code`, `created_at`, `updated_at`) VALUES
 (1, 6, 2, '2024-09-28', '2024-09-30', '03', '05', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565645454', 0, '26950641991', '2024-09-17 09:51:51', '2024-11-23 12:08:49'),
 (2, 6, 2, '2024-09-18', '2024-09-25', '03', '4', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 0, '67760666178', '2024-09-17 09:52:09', '2024-09-17 09:52:09'),
-(3, 6, 2, '2024-09-18', '2024-09-25', '03', '3', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 0, '72082782771', '2024-09-17 09:54:08', '2024-09-17 09:54:08'),
-(4, 6, 2, '2024-09-18', '2024-09-25', '03', '2', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 0, '65504349765', '2024-09-17 10:03:57', '2024-09-17 10:03:57'),
+(3, 6, 2, '2024-09-18', '2024-09-25', '03', '3', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '1', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 1, '72082782771', '2024-09-17 09:54:08', '2025-03-01 23:13:15'),
+(4, 6, 2, '2024-09-18', '2024-09-25', '03', '2', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '1', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 1, '65504349765', '2024-09-17 10:03:57', '2025-02-28 22:56:44'),
 (5, 6, 2, '2024-09-18', '2024-09-25', '03', '6', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 0, '39817721739', '2024-09-17 10:04:23', '2024-09-17 10:04:23'),
 (6, 6, 2, '2024-09-18', '2024-09-25', '03', '2', 7.00, 452000.00, 3164000.00, 316400, 2847600.00, 'COD', '', '1', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Gujrat', '565', 1, '38389922870', '2024-09-17 10:10:05', '2024-10-15 00:54:19'),
-(7, 6, 2, '2024-09-22', '2024-09-24', '02', '4', 2.00, 452000.00, 904000.00, 90400, 813600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Canada', '125479', 0, '90761868141', '2024-09-20 11:07:24', '2024-09-20 11:07:24');
+(7, 6, 2, '2024-09-22', '2024-09-24', '02', '4', 2.00, 452000.00, 904000.00, 90400, 813600.00, 'COD', '', '1', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Canada', '125479', 1, '90761868141', '2024-09-20 11:07:24', '2025-03-01 01:36:43'),
+(8, 6, 2, '2025-02-18', '2025-02-20', '02', '01', 2.00, 452000.00, 904000.00, 90400, 813600.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'New Yourk', '62584', 1, '26308647220', '2025-02-10 23:43:36', '2025-02-11 00:08:54'),
+(10, 5, 2, '2025-02-16', '2025-02-19', '02', '01', 3.00, 485000.00, 1455000.00, 0, 1455000.00, 'COD', '', '1', 'alamin', 'alamin@gmail.com', '01538309325', 'Bangaldesh', 'United Kingdom', 'New Yourk', '62584', 1, '8929514772', '2025-02-16 00:59:41', '2025-02-28 22:49:35'),
+(11, 6, 2, '2025-02-21', '2025-02-25', '03', '01', 4.00, 452000.00, 1808000.00, 180800, 1627200.00, 'COD', '', '1', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Dhaka', '62584', 1, '20736203466', '2025-02-21 11:25:06', '2025-03-01 23:18:25'),
+(12, 3, 2, '2025-02-22', '2025-02-25', '01', '01', 3.00, 452000.00, 1356000.00, 135600, 1220400.00, 'COD', '', '0', 'user', 'user@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Dhaka', '62584', 0, '38762489731', '2025-02-21 11:25:29', '2025-02-21 11:25:29'),
+(13, 5, 2, '2025-02-26', '2025-02-27', '02', '01', 1.00, 485000.00, 485000.00, 0, 485000.00, 'COD', '', '1', 'Ifran Khan', 'ifran@gmail.com', '01538309325', 'Bangaldesh', 'Bangladesh', 'Dhaka', '62584', 1, '41211353051', '2025-02-21 11:26:42', '2025-02-28 07:37:04');
 
 -- --------------------------------------------------------
 
@@ -94,7 +99,20 @@ INSERT INTO `booking_room_lists` (`id`, `booking_id`, `rooms_id`, `room_number_i
 (5, 1, 6, 17, '2024-11-24 04:53:47', '2024-11-24 04:53:47'),
 (6, 3, 6, 14, '2024-11-24 09:37:13', '2024-11-24 09:37:13'),
 (9, 6, 6, 14, '2024-11-25 06:02:56', '2024-11-25 06:02:56'),
-(10, 6, 6, 17, '2024-11-25 06:03:06', '2024-11-25 06:03:06');
+(10, 6, 6, 17, '2024-11-25 06:03:06', '2024-11-25 06:03:06'),
+(12, 8, 6, 14, '2025-02-10 23:53:58', '2025-02-10 23:53:58'),
+(13, 1, 6, 17, '2025-02-11 01:59:39', '2025-02-11 01:59:39'),
+(14, 1, 6, 15, '2025-02-11 02:05:53', '2025-02-11 02:05:53'),
+(15, 3, 6, 15, '2025-02-11 02:32:58', '2025-02-11 02:32:58'),
+(16, 3, 6, 15, '2025-02-11 02:44:09', '2025-02-11 02:44:09'),
+(17, 9, 3, 19, '2025-02-15 09:49:08', '2025-02-15 09:49:08'),
+(18, 9, 3, 18, '2025-02-15 09:49:12', '2025-02-15 09:49:12'),
+(19, 9, 3, 23, '2025-02-15 09:49:18', '2025-02-15 09:49:18'),
+(20, 11, 6, 14, '2025-02-21 23:46:16', '2025-02-21 23:46:16'),
+(21, 13, 5, 21, '2025-02-28 07:36:40', '2025-02-28 07:36:40'),
+(22, 10, 5, 21, '2025-02-28 22:49:25', '2025-02-28 22:49:25'),
+(23, 4, 6, 15, '2025-02-28 22:56:35', '2025-02-28 22:56:35'),
+(24, 7, 6, 15, '2025-02-28 23:18:53', '2025-02-28 23:18:53');
 
 -- --------------------------------------------------------
 
@@ -151,10 +169,10 @@ INSERT INTO `facilities` (`id`, `rooms_id`, `facility_name`, `created_at`, `upda
 (40, 5, 'Hair dryer', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
 (41, 5, 'Hair dryer', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
 (42, 5, 'Safety box', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
-(43, 6, 'Free Wi-Fi', '2024-09-08 09:15:01', '2024-09-08 09:15:01'),
-(44, 6, 'Smoke alarms', '2024-09-08 09:15:01', '2024-09-08 09:15:01'),
-(45, 6, 'Work Desk', '2024-09-08 09:15:01', '2024-09-08 09:15:01'),
-(46, 6, 'Wake-up service', '2024-09-08 09:15:01', '2024-09-08 09:15:01');
+(111, 6, 'Free Wi-Fi', '2025-02-20 02:22:56', '2025-02-20 02:22:56'),
+(112, 6, 'Smoke alarms', '2025-02-20 02:22:56', '2025-02-20 02:22:56'),
+(113, 6, 'Work Desk', '2025-02-20 02:22:56', '2025-02-20 02:22:56'),
+(114, 6, 'Wake-up service', '2025-02-20 02:22:56', '2025-02-20 02:22:56');
 
 -- --------------------------------------------------------
 
@@ -202,7 +220,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (33, '2024_05_06_071825_create_room_numbers_table', 1),
 (34, '2024_07_13_185438_create_bookings_table', 2),
 (35, '2024_07_14_171622_create_room_book_dates_table', 2),
-(36, '2024_07_17_091022_create_booking_room_lists_table', 3);
+(36, '2024_07_17_091022_create_booking_room_lists_table', 3),
+(37, '2025_03_04_111515_create_testimonials_table', 4);
 
 -- --------------------------------------------------------
 
@@ -314,7 +333,20 @@ INSERT INTO `room_book_dates` (`id`, `booking_id`, `rooms_id`, `book_date`, `cre
 (10, 7, 7, '2024-09-22', '2024-11-23 12:05:42', '2024-11-23 12:05:42'),
 (11, 7, 7, '2024-09-23', '2024-11-23 12:05:42', '2024-11-23 12:05:42'),
 (12, 1, 1, '2024-09-28', '2024-11-23 12:08:49', '2024-11-23 12:08:49'),
-(13, 1, 1, '2024-09-29', '2024-11-23 12:08:49', '2024-11-23 12:08:49');
+(13, 1, 1, '2024-09-29', '2024-11-23 12:08:49', '2024-11-23 12:08:49'),
+(14, 8, 6, '2025-02-18', '2025-02-10 23:43:36', '2025-02-10 23:43:36'),
+(15, 8, 6, '2025-02-19', '2025-02-10 23:43:36', '2025-02-10 23:43:36'),
+(16, 10, 5, '2025-02-16', '2025-02-16 00:59:41', '2025-02-16 00:59:41'),
+(17, 10, 5, '2025-02-17', '2025-02-16 00:59:41', '2025-02-16 00:59:41'),
+(18, 10, 5, '2025-02-18', '2025-02-16 00:59:41', '2025-02-16 00:59:41'),
+(19, 11, 6, '2025-02-21', '2025-02-21 11:25:06', '2025-02-21 11:25:06'),
+(20, 11, 6, '2025-02-22', '2025-02-21 11:25:06', '2025-02-21 11:25:06'),
+(21, 11, 6, '2025-02-23', '2025-02-21 11:25:06', '2025-02-21 11:25:06'),
+(22, 11, 6, '2025-02-24', '2025-02-21 11:25:06', '2025-02-21 11:25:06'),
+(23, 12, 3, '2025-02-22', '2025-02-21 11:25:29', '2025-02-21 11:25:29'),
+(24, 12, 3, '2025-02-23', '2025-02-21 11:25:29', '2025-02-21 11:25:29'),
+(25, 12, 3, '2025-02-24', '2025-02-21 11:25:29', '2025-02-21 11:25:29'),
+(26, 13, 5, '2025-02-26', '2025-02-21 11:26:42', '2025-02-21 11:26:42');
 
 -- --------------------------------------------------------
 
@@ -346,7 +378,6 @@ INSERT INTO `room_numbers` (`id`, `rooms_id`, `room_type_id`, `room_no`, `status
 (14, 6, '5', 241, 'Active', '2024-08-27 10:49:59', '2024-08-27 10:49:59'),
 (15, 6, '5', 242, 'Active', '2024-08-27 10:50:15', '2024-08-27 10:50:15'),
 (16, 6, '5', 243, 'Active', '2024-08-27 10:50:31', '2024-08-27 10:50:31'),
-(17, 6, '5', 244, 'Active', '2024-08-27 10:50:44', '2024-08-27 10:50:44'),
 (18, 3, '2', 241, 'Active', '2024-08-27 12:18:53', '2024-08-27 12:18:53'),
 (19, 3, '2', 242, 'Active', '2024-08-27 12:19:07', '2024-08-30 23:01:16'),
 (20, 5, '4', 401, 'Active', '2024-08-30 22:58:04', '2024-08-30 22:58:04'),
@@ -400,9 +431,34 @@ CREATE TABLE `teams` (
 --
 
 INSERT INTO `teams` (`id`, `image`, `name`, `position`, `facebook`, `created_at`, `updated_at`) VALUES
-(4, 'upload/team/1803938333656932.jpg', 'Kamrul Hasan Ripon', 'Junior Web Developer', 'kawsar@facebook.com', '2024-07-07 16:27:40', '2024-07-07 16:27:40'),
 (5, 'upload/team/1803938437304517.jpg', 'nadia sultana', 'Designer', 'https://www.facebook.com', '2024-07-07 16:29:19', '2024-07-07 16:29:19'),
 (6, 'upload/team/1803938504306201.jpg', 'kamrul', 'Software Engineer', 'https://www.facebook.com/sthir.esrak.3', '2024-07-07 16:30:23', '2024-07-07 16:30:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `testimonials`
+--
+
+CREATE TABLE `testimonials` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `message` longtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `testimonials`
+--
+
+INSERT INTO `testimonials` (`id`, `name`, `city`, `image`, `message`, `created_at`, `updated_at`) VALUES
+(1, 'Khayrul Alam Rayan Ifti', 'USA, New York', 'upload/testimonial/1826263574005070.jpg', 'Nobody showing up for your sales appointments or webinars? Just send one text message to remind your leads to make an appearanceFinding the answers to these questions isn’t difficult, but getting any kind of new tool set up can be time-consuming. And that can be a barrier to moving forward, even if you know it would be beneficial for your business.', NULL, '2025-03-10 21:22:55'),
+(2, 'Ifran Khan', 'Canada', 'upload/testimonial/1826215470936070.young-artist-painting-canvas.jpg', 'Nobody showing up for your sales appointments or webinars? Just send one text message to remind your leads to make an appearanceFinding the answers to these questions isn’t difficult, but getting any kind of new tool set up can be time-consuming. And that can be a barrier to moving forward, even if you know it would be beneficial for your business.', NULL, '2025-03-10 21:23:05'),
+(3, 'Md Jakeiya', 'Calilfornia', 'upload/testimonial/1826215521692644.portrait-handsome-man-stylish-hipster-clothes-attractive-guy-posing-street.jpg', 'Nobody showing up for your sales appointments or webinars? Just send one text message to remind your leads to make an appearanceFinding the answers to these questions isn’t difficult, but getting any kind of new tool set up can be time-consuming. And that can be a barrier to moving forward, even if you know it would be beneficial for your business.', NULL, '2025-03-10 21:23:15'),
+(5, 'Ifran Khan', 'USA, New York', 'upload/testimonial/1826265885942668.images.jpg', 'Nobody showing up for your sales appointments or webinars? Just send one text message to remind your leads to make an appearance Finding the answers to these questions isn’t difficult, but getting any kind of new tool set up can be time-consuming. And that can be a barrier to moving forward, even if you know it would be beneficial for your business.', NULL, '2025-03-10 21:23:22');
 
 -- --------------------------------------------------------
 
@@ -432,7 +488,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `photo`, `phone`, `address`, `role`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@gmail.com', NULL, '$2y$10$cGw7xbSN0nGcPFbFx9Tf7.QWZiBePXT2J0GSlY1vq1RyErjwOBIe2', '', '01920797783', NULL, 'admin', 'active', NULL, NULL, NULL),
-(2, 'user', 'user@gmail.com', NULL, '$2y$10$lVnd1kc8rI6vRY/qxd7mCe.GAkLRVhOo37yqvcJYA4ww/5HKVjE66', '', '01538309325', 'Bangaldesh', 'user', 'active', NULL, NULL, NULL);
+(2, 'user', 'user@gmail.com', NULL, '$2y$10$sOhc4PlTrgSuArQH7B1OfOauDahndrVbLdOq7Q.tNWNLWatL0Uq/y', '202502220744WhatsApp Image 2025-01-05 at 01.07.44_92794632.jpg', '01538309325', 'Bangaldesh', 'user', 'active', NULL, NULL, '2025-02-22 01:45:08');
 
 --
 -- Indexes for dumped tables
@@ -526,6 +582,12 @@ ALTER TABLE `teams`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `testimonials`
+--
+ALTER TABLE `testimonials`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -540,13 +602,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `booking_room_lists`
 --
 ALTER TABLE `booking_room_lists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `book_areas`
@@ -558,7 +620,7 @@ ALTER TABLE `book_areas`
 -- AUTO_INCREMENT for table `facilities`
 --
 ALTER TABLE `facilities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -570,7 +632,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `multi_images`
@@ -594,7 +656,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `room_book_dates`
 --
 ALTER TABLE `room_book_dates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `room_numbers`
@@ -613,6 +675,12 @@ ALTER TABLE `room_types`
 --
 ALTER TABLE `teams`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `testimonials`
+--
+ALTER TABLE `testimonials`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`

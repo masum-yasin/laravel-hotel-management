@@ -102,6 +102,8 @@ public function BookArea(){
 $book =BookArea::find(1);
 return view('backend.bookarea.book_area',compact('book'));
 }
+
+
 public function BookAreaUpdate(Request $request){
     $book_id = $request->id;
 
@@ -139,6 +141,8 @@ public function BookAreaUpdate(Request $request){
     }
 
 }
+
+
  
 }
 

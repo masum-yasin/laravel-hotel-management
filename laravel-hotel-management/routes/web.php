@@ -81,7 +81,11 @@ Route::get('team/delete/{id}',"TeamDelete")->name('team.delete');
     
     Route::controller(TestimonialController::class)->group(function(){
         Route::get('alltestimonial', 'Alltestimonial')->name('alltestimonial');
-        Route::any('testimonial.add', 'TestimonialAdd')->name('testimonial.add');
+        Route::get('testimonial.add', 'TestimonialAdd')->name('testimonial.add');
+        Route::post('testimonialStore', 'TestimonialStore')->name('testimonialStore');
+        Route::get('testimonialEdit/{id}', 'TestimonialEdit')->name('testimonialEdit');
+        Route::post('testimonialUpdate', 'TestimonialUpdate')->name('testimonialUpdate');
+        Route::get('testimonialDelete/{id}', 'TestimonialDelete')->name('testimonialDelete');
     });
 
     Route::controller(RoomTypeController::class)->group(function(){
