@@ -39,7 +39,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="room-card">
                                 <a href="{{route('search.room.details', $item->id .'?check_in='.old('check_in').'&check_out='.old('check_out').'&persion='.old('persion'))}}">
-                                    <img src="{{ 'upload/roomimg/' . $item->image }}" alt="Images" style="width: 550px"
+                                    <img src="{{$item->image }}" alt="Images" style="width: 550px"
                                         height="330px">
                                 </a>
                                 <div class="content">

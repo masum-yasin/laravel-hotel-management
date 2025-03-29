@@ -40,7 +40,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>
-                                        <img src="{{ !empty($room->image) ? url('upload/roomimg/'.$room->image) : url('upload/no_image.jpg') }}" alt="" width="100px" height="70px">
+                                        <img src="{{ !empty($room->image) ? url($room->image) : url('upload/no_image.jpg') }}" alt="" width="100px" height="70px">
                                     </td>
                                     <td>{{ $item->name }}</td>
                                     <td class="d-flex gap-3">

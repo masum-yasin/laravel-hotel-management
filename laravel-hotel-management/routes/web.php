@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\TeamController;
 use App\Http\Controllers\backend\RoomTypeController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\RoomListController;
-use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\backend\TestimonialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,15 +89,19 @@ Route::get('team/delete/{id}',"TeamDelete")->name('team.delete');
         Route::get('testimonialDelete/{id}', 'TestimonialDelete')->name('testimonialDelete');
     });
 
+    // Room Type Controller Route
+
     Route::controller(RoomTypeController::class)->group(function(){
     Route::get('room/type/list','RoomTypeList')->name('room.type.list');
     Route::get('add/room/type','AddRoomType')->name('add.room.type');
     Route::post('add/room/type','RoomTypeStore')->name('store.room.type');
     
 }); 
+
+// Room Controller Route
 Route::controller(RoomController::class)->group(function(){
     Route::get('edit/room/{id}','EditRoom')->name('edit.room');
-    Route::get('update/room/{id}','UpdateRoom')->name('update.room');
+    Route::post('update/room/{id}','UpdateRoom')->name('update.room');
     Route::get('multi/image/delete/{id}','multiImageDelete')->name('multi.image.delete');
     Route::post('store/room/no/{id}','StoreRoomNumber')->name('store.room.no');
     Route::get('edit/room/no/{id}','EditRoomNumber')->name('edit.roomno');
@@ -115,16 +120,32 @@ Route::get('download/invice/{id}','DownloadInvoice')->name('download.invoice');
 
 
 });
+
+// Blog Controller here
+Route::controller(BlogController::class)->group(function(){
+Route::get('blog/category', 'BlogCategory')->name('blog.category');
+Route::post('blog/category/store', 'BlogCategoryStore')->name('blog.category.store');
+Route::get('edit/blog/category/{id}', 'EditBlogCategory');
+Route::post('update/blog/category', 'UpdateBlogCategory')->name('update.blog.category');
+Route::get('delete/blog/category/{id}','DeleteBlogCategory')->name('delete.blog.category');
 });
 
-Route::controller(FrontendRoomController::class)->group(function(){
-    Route::get('/rooms/','AllFrontendRoomList')->name('frontendall.rooms');
-    Route::get('room/details/{id}','RoomDetailsPage');
-    Route::get('/booking/','BookingSearch')->name('booking.search');
-    Route::get('search/room/details/{id}', 'SearchRoomDetails')->name('search.room.details');
+// Blog Post Route Here
 
-    Route::post('/check_room_availability', 'CheckRoomAvailability')->name('check_room_availability');
+Route::controller(BlogController::class)->group(function(){
+Route::get('all/blog/post', 'AllBlogPost')->name('all.blog.post');
+
+Route::any('add/blog/post', "AddBlogPost")->name('add.blog.post');
+
+Route::post('store.blog.post', 'StoreBlogPost')->name('store.blog.post');
+Route::get('blogpost.edit/{id}', 'EditBlogPost')->name('blogpost.edit');
+Route::post('blogpost.update/', 'UpdatePostBlog')->name('blogpost.update');
+Route::get('blogpost.delete/{id}', 'DeletePostBlog')->name('blogpost.delete');
+
 });
+});
+
+
 
 
 
@@ -154,4 +175,19 @@ Route::controller(RoomListController::class)->group(function(){
     Route::post('store/room/list', 'StoreRoomList')->name('store.roomlist');
 
 });
+});
+// Frontend Route Here Are
+Route::controller(FrontendRoomController::class)->group(function(){
+    Route::get('/rooms/','AllFrontendRoomList')->name('frontendall.rooms');
+    Route::get('room/details/{id}','RoomDetailsPage');
+    Route::get('/booking/','BookingSearch')->name('booking.search');
+    Route::get('search/room/details/{id}', 'SearchRoomDetails')->name('search.room.details');
+
+    Route::post('/check_room_availability', 'CheckRoomAvailability')->name('check_room_availability');
+});
+
+
+Route::controller(BlogController::class)->group(function(){
+    Route::get('blog/details/{slug}', 'BlogDetails');
+    Route::get('blog/cat/list/{id}', 'BlogCatList');
 });

@@ -36,12 +36,13 @@
                         </ul>
                         <div class="tab-content py-3">
                             <div class="tab-pane fade active show" id="primaryhome" role="tabpanel">
+                                <div>
+                                    <h5 class="mb-4">UPDATE ROOM</h5>
+                                </div>
                                 <form class="row g-3" action="{{ route('update.room', $editData->id) }}"
-                                    enctype="multipart/form-data">
+                                    enctype="multipart/form-data" method="POST">
                                     @csrf
-                                    <div>
-                                        <h5 class="mb-4">UPDATE ROOM</h5>
-                                    </div>
+                                 
                                     <div class="col-md-4">
                                         <label for="input1" class="form-label">Room Type Name</label>
                                         <input type="text" class="form-control" id="input1" name="roomtype_id"
@@ -61,7 +62,7 @@
                                         <label for="input3" class="form-label">Main Image</label>
                                         <input type="file" class="form-control" id="image" name="image">
                                         <img id="showImage"
-                                            src="{{ !empty($editData->image) ? url('upload/roomimg/' . $editData->image) : url('upload/no_image.jpg') }}"
+                                            src="{{ !empty($editData->image) ? url($editData->image) : url('upload/no_image.jpg') }}"
                                             class="rounded-circle p-1 bg-primary" alt="" width="120px">
 
 
@@ -73,12 +74,13 @@
                                     
                                         @foreach ($multiImage as $item)
                                             <div class="image-container" style="position: relative; display: inline-block;">
-                                                <img src="{{ !empty($item->image) ? url('upload/roomimg/multi_img/' . $item->image) : url('upload/no_image.jpg') }}"
-                                                    class="rounded-circle p-1 bg-primary" alt="" width="60px" height="50px">
+                                                <img src="{{ !empty($item->multi_img) ? url($item->multi_img) : url('upload/no_image.jpg') }}"
+                                                class="rounded-circle p-1 bg-primary" alt="" width="70px" height="70px">
+                                           
                                     
                                                 <!-- Delete icon with absolute positioning -->
-                                                <a href="{{ route('multi.image.delete', $item->id) }}" style="position: absolute; top: 0; right: 0; background-color: rgba(0, 0, 0, 0.5); padding: 5px; border-radius: 50%;">
-                                                    <i class="lni lni-close" style="font-size: 20px; color: white;"></i>
+                                                <a href="{{ route('multi.image.delete', $item->id) }}" style="position: absolute; top: 0; right: 0; background-color: rgba(0, 0, 0, 0.5); padding: 3px; border-radius: 50%;">
+                                                    <i class="lni lni-close" style="font-size: 15px; color: white;"></i>
                                                 </a>
                                             </div>
                                         @endforeach

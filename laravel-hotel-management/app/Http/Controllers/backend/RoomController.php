@@ -11,6 +11,7 @@ use App\Models\roomNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class RoomController extends Controller
 {
@@ -26,6 +27,9 @@ class RoomController extends Controller
     public function UpdateRoom(Request $request, $id)
 {
     Log::info($request->all());
+
+    // dd($request->all(), $request->file('multi_img'));
+
     $room = Room::find($id);
     
     // Update room details
@@ -42,15 +46,35 @@ class RoomController extends Controller
     $room->description   = $request->description;
     $room->status        = 1;
 
-    // Update Single Image
+
+
+
+    
     if ($request->hasFile('image')) {
+        // Get the old image path
+        $oldImagePath = public_path($room->image);
+
+        // Check if the old image exists and delete it
+        if (!empty($room->image) && File::exists($oldImagePath)) {
+            File::delete($oldImagePath);
+        }
+
+        // Process new image
         $image = $request->file('image');
         $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-        Image::make($image)->resize(550, 850)->save('upload/roomimg/' . $name_gen);
-        $room->image = $name_gen;
+        $image_path = 'upload/roomimg/' . $name_gen;
+
+        // Resize and store image
+        Image::make($image)->resize(550, 850)->save(public_path($image_path));
+
+        // Update the database
+        $room->image = $image_path;
     }
-    
+
+    // Save the room details
     $room->save();
+    
+    
 
     // Update facility table
     if ($request->facility_name == NULL) {
@@ -72,18 +96,20 @@ class RoomController extends Controller
 
     // Update Multi Image
     if ($request->hasFile('multi_img')) {
-        // Delete existing multi images
         MultiImage::where('rooms_id', $id)->delete();
+    
         foreach ($request->file('multi_img') as $file) {
-            $imgName = date('YmdHi') . $file->getClientOriginalName();
-            $file->move('upload/roomimg/multi_img/', $imgName);
+            $imgName = date('YmdHi') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('upload/roomimg/multi_img/'), $imgName);
             
             $multiImage = new MultiImage();
             $multiImage->rooms_id = $room->id;
-            $multiImage->multi_img = $imgName;
+            $multiImage->multi_img = 'upload/roomimg/multi_img/' . $imgName;
             $multiImage->save();
         }
     }
+    
+
     
     $notification = [
         'message'    => 'Room Updated Successfully',
@@ -98,8 +124,10 @@ class RoomController extends Controller
 
 
 
-    public function multiImageDelete($id){
-        $deleteData = MultiImage::where('íd',$id)->first();
+    public function multiImageDelete(Request $request, $id){
+
+        // dd($request->id);
+        $deleteData = MultiImage::where('id',$id)->first();
         if($deleteData){
             $imagePath =$deleteData->multi_img;
             // check if the file exists before unlinking//
@@ -176,16 +204,16 @@ public function DeleteRoomNumber($id){
 
 public function DeleteRoom($id){
     $room = Room::find($id);
-    // if(file_exists('upload/roomimg/',$room->image) AND !empty($room->image)){
-    //     @unlink('upload/roomimg/',$room->image);
-    // }
-    // $subImage= MultiImage::where('rooms_id', $room->id)->get()->toArray();
-    //     if(!empty($subImage)){
-    //         foreach($subImage as $value){
-    //             @unlink('upload/roomimg/multi_img/'.$value['multi_images']);
-    //         }
+    if(file_exists('upload/roomimg/',$room->image) AND !empty($room->image)){
+        @unlink('upload/roomimg/',$room->image);
+    }
+    $subImage= MultiImage::where('rooms_id', $room->id)->get()->toArray();
+        if(!empty($subImage)){
+            foreach($subImage as $value){
+                @unlink('upload/roomimg/multi_img/'.$value['multi_images']);
+            }
         
-    //     }
+        }
         RoomType::where('id',$room->roomtype_id)->delete();
         // MultiImage::where('rooms_id',$room->id)->delete();
         Facility::where('rooms_id',$room->id)->delete();   

@@ -311,7 +311,7 @@
         @endif
     </script>
     
-{{-- CK Editor  --}}
+{{-- Long Description CK Editor  --}}
     <script>
         ClassicEditor
             .create( document.querySelector( '#editor' ) )
