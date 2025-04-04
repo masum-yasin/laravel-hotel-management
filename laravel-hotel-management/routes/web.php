@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\backend\BlogController;
+use App\Http\Controllers\backend\CommentController;
 use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\TeamController;
 use App\Http\Controllers\backend\RoomTypeController;
@@ -143,6 +144,12 @@ Route::post('blogpost.update/', 'UpdatePostBlog')->name('blogpost.update');
 Route::get('blogpost.delete/{id}', 'DeletePostBlog')->name('blogpost.delete');
 
 });
+// Here Are All comment Route
+Route::controller(CommentController::class)->group(function(){
+Route::get('all/comment/', 'AllComment')->name('all.comment');
+Route::post('update/comment/status/', 'UpdateCommentStatus')->name('update.comment.status');
+
+});
 });
 
 
@@ -190,4 +197,10 @@ Route::controller(FrontendRoomController::class)->group(function(){
 Route::controller(BlogController::class)->group(function(){
     Route::get('blog/details/{slug}', 'BlogDetails');
     Route::get('blog/cat/list/{id}', 'BlogCatList');
+    Route::get('blog/menu', 'blogMenu');
+});
+
+// Frontend Comment Controller
+Route::controller(CommentController::class)->group(function(){
+    Route::post('comment/store/', 'CommentStore')->name('comment.store');
 });

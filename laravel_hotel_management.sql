@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Mar 11, 2025 at 05:54 AM
+-- Host: 127.0.0.1
+-- Generation Time: Apr 04, 2025 at 08:19 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,61 @@ SET time_zone = "+00:00";
 --
 -- Database: `laravel_hotel_management`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog_categories`
+--
+
+CREATE TABLE `blog_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `category_name` varchar(255) NOT NULL,
+  `category_slug` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `blog_categories`
+--
+
+INSERT INTO `blog_categories` (`id`, `category_name`, `category_slug`, `created_at`, `updated_at`) VALUES
+(1, 'Travel Destination', 'travel-destination', '2025-03-15 08:09:50', '2025-03-15 04:15:38'),
+(2, 'Travel Tips And Hacks', 'travel-tips-and-hacks', '2025-03-15 08:11:15', '2025-03-15 08:11:15'),
+(3, 'Luxury Hotels', 'luxury-hotels', '2025-03-15 08:13:30', '2025-03-15 08:13:30'),
+(4, 'Hotel Reviews', 'hotel-reviews', '2025-03-15 08:13:50', '2025-03-15 08:13:50'),
+(5, 'Boutique Hotels', 'boutique-hotels', '2025-03-15 08:15:22', '2025-03-15 08:15:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog_posts`
+--
+
+CREATE TABLE `blog_posts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `blogcat_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `post_slug` varchar(255) NOT NULL,
+  `post_title` varchar(255) NOT NULL,
+  `post_image` varchar(255) NOT NULL,
+  `short_descp` text NOT NULL,
+  `long_descp` longtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `blog_posts`
+--
+
+INSERT INTO `blog_posts` (`id`, `blogcat_id`, `user_id`, `post_slug`, `post_title`, `post_image`, `short_descp`, `long_descp`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 'Effective hotel management ensures ultimate guest satisfactionHotel Management is the Best Policy', 'Effective hotel management ensures ultimate guest satisfactionHotel Management is the Best Policy', 'upload/post/1827212883201544.jpg', 'A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists.', '<p>Hotels can range from small family-run businesses to large international chains. Most hotels list a variety of services, such as room service, laundry, and concierge. Some hotels also offer meeting and conference facilities, fitness centers, and spas.</p>', '2025-03-21 14:06:38', '2025-03-21 14:06:38'),
+(2, 5, 1, 'Smart hotel management drives success and growth', 'Smart hotel management drives success and growth', 'upload/post/1827652665297436.jpg', 'Hotel management encompasses the comprehensive oversight and operation of a hotel', '<p>11Hotel management encompasses the comprehensive oversight and operation of a hotel, encompassing all aspects from guest services and housekeeping to financial performance and staff management, aiming to ensure a positive guest experience and profitable operation</p>', '2025-03-25 08:43:58', '2025-03-26 04:36:47'),
+(4, 2, 1, 'Hotel management is the key to a thriving hospitality business', 'Hotel management is the key to a thriving hospitality business', 'upload/post/1827665034377857.jpg', 'Hotel management encompasses the comprehensive oversight and direction of all aspects of a hotel\'s operation', '<p>Hotel management encompasses the comprehensive oversight and direction of all aspects of a hotel\'s operation, ensuring smooth functioning, profitability, and guest satisfaction. </p>', '2025-03-26 13:53:23', '2025-03-28 07:32:17'),
+(5, 5, 1, 'Efficient hotel operations begin with strong management', 'Efficient hotel operations begin with strong management', 'upload/post/1827666071040262.jpg', 'Hotel management encompasses the comprehensive oversight and direction of all aspects of a hotel\'s operation, ensuring smooth functioning, profitability, and guest satisfaction', '<p>A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists, offering a range of room types and amenities.&nbsp;</p>', '2025-03-26 14:08:06', '2025-03-28 07:32:03'),
+(6, 4, 1, 'Mastering hotel management leads to long-term profitability', 'Mastering hotel management leads to long-term profitability', 'upload/post/1827666096216339.jpg', 'A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists, offering a range of room types and amenities.', '<p>A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists, offering a range of room types and amenities.&nbsp;</p>', '2025-03-26 14:10:15', '2025-03-26 14:10:15');
 
 -- --------------------------------------------------------
 
@@ -141,6 +196,30 @@ INSERT INTO `book_areas` (`id`, `image`, `short_title`, `main_title`, `short_des
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `post_id` int(10) UNSIGNED NOT NULL,
+  `message` longtext NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `post_id`, `message`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 6, 'A hotel is a commercial establishment that provides lodging, meals, and other services to guests, travelers, and tourists, offering a range of room types and amenities.', '1', '2025-04-02 16:43:22', '2025-04-04 00:16:32'),
+(2, 2, 6, 'Here are some examples of hotel comment texts, focusing on different aspects of a hotel stay, including booking confirmations, welcome messages,', '1', '2025-04-02 16:52:06', '2025-04-04 00:18:43');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `facilities`
 --
 
@@ -157,22 +236,23 @@ CREATE TABLE `facilities` (
 --
 
 INSERT INTO `facilities` (`id`, `rooms_id`, `facility_name`, `created_at`, `updated_at`) VALUES
-(11, 4, 'Slippers', '2024-07-05 17:20:22', '2024-07-05 17:20:22'),
-(12, 4, 'Work Desk', '2024-07-05 17:20:23', '2024-07-05 17:20:23'),
-(13, 4, 'Slippers', '2024-07-05 17:20:23', '2024-07-05 17:20:23'),
-(14, 4, 'Rain Shower', '2024-07-05 17:20:23', '2024-07-05 17:20:23'),
-(31, 3, NULL, '2024-08-30 23:00:54', '2024-08-30 23:00:54'),
-(32, 3, 'Wake-up service', '2024-08-30 23:00:54', '2024-08-30 23:00:54'),
-(33, 3, 'Laundry & Dry Cleaning', '2024-08-30 23:00:54', '2024-08-30 23:00:54'),
-(34, 3, NULL, '2024-08-30 23:00:54', '2024-08-30 23:00:54'),
-(39, 5, 'Smoke alarms', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
-(40, 5, 'Hair dryer', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
-(41, 5, 'Hair dryer', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
-(42, 5, 'Safety box', '2024-09-08 09:12:00', '2024-09-08 09:12:00'),
-(111, 6, 'Free Wi-Fi', '2025-02-20 02:22:56', '2025-02-20 02:22:56'),
-(112, 6, 'Smoke alarms', '2025-02-20 02:22:56', '2025-02-20 02:22:56'),
-(113, 6, 'Work Desk', '2025-02-20 02:22:56', '2025-02-20 02:22:56'),
-(114, 6, 'Wake-up service', '2025-02-20 02:22:56', '2025-02-20 02:22:56');
+(205, 6, 'Wake-up service', '2025-03-14 11:20:22', '2025-03-14 11:20:22'),
+(206, 6, 'Wake-up service', '2025-03-14 11:20:22', '2025-03-14 11:20:22'),
+(207, 6, 'Work Desk', '2025-03-14 11:20:22', '2025-03-14 11:20:22'),
+(208, 6, 'Safety box', '2025-03-14 11:20:22', '2025-03-14 11:20:22'),
+(209, 6, 'Slippers', '2025-03-14 11:20:22', '2025-03-14 11:20:22'),
+(210, 5, 'Smoke alarms', '2025-03-14 11:21:04', '2025-03-14 11:21:04'),
+(211, 5, 'Hair dryer', '2025-03-14 11:21:04', '2025-03-14 11:21:04'),
+(212, 5, 'Hair dryer', '2025-03-14 11:21:04', '2025-03-14 11:21:04'),
+(213, 5, 'Safety box', '2025-03-14 11:21:04', '2025-03-14 11:21:04'),
+(214, 4, 'Slippers', '2025-03-14 11:21:32', '2025-03-14 11:21:32'),
+(215, 4, 'Work Desk', '2025-03-14 11:21:32', '2025-03-14 11:21:32'),
+(216, 4, 'Slippers', '2025-03-14 11:21:32', '2025-03-14 11:21:32'),
+(217, 4, 'Rain Shower', '2025-03-14 11:21:32', '2025-03-14 11:21:32'),
+(218, 3, NULL, '2025-03-14 11:21:53', '2025-03-14 11:21:53'),
+(219, 3, 'Wake-up service', '2025-03-14 11:21:53', '2025-03-14 11:21:53'),
+(220, 3, 'Laundry & Dry Cleaning', '2025-03-14 11:21:53', '2025-03-14 11:21:53'),
+(221, 3, NULL, '2025-03-14 11:21:53', '2025-03-14 11:21:53');
 
 -- --------------------------------------------------------
 
@@ -221,7 +301,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (34, '2024_07_13_185438_create_bookings_table', 2),
 (35, '2024_07_14_171622_create_room_book_dates_table', 2),
 (36, '2024_07_17_091022_create_booking_room_lists_table', 3),
-(37, '2025_03_04_111515_create_testimonials_table', 4);
+(37, '2025_03_04_111515_create_testimonials_table', 4),
+(38, '2025_03_15_062921_create_categories_table', 5),
+(39, '2025_03_15_074848_create_blog_categories_table', 6),
+(41, '2025_03_16_010352_create_blog_posts_table', 7),
+(42, '2025_04_02_064544_create_comments_table', 8);
 
 -- --------------------------------------------------------
 
@@ -236,6 +320,29 @@ CREATE TABLE `multi_images` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `multi_images`
+--
+
+INSERT INTO `multi_images` (`id`, `rooms_id`, `multi_img`, `created_at`, `updated_at`) VALUES
+(4, 3, 'upload/roomimg/multi_img/202503130920_67d2a35c12298.jpg', '2025-03-13 03:20:28', '2025-03-13 03:20:28'),
+(5, 3, 'upload/roomimg/multi_img/202503130920_67d2a35c13d48.jpg', '2025-03-13 03:20:28', '2025-03-13 03:20:28'),
+(6, 3, 'upload/roomimg/multi_img/202503130920_67d2a35c1522c.jpg', '2025-03-13 03:20:28', '2025-03-13 03:20:28'),
+(7, 3, 'upload/roomimg/multi_img/202503130920_67d2a35c16a03.jpg', '2025-03-13 03:20:28', '2025-03-13 03:20:28'),
+(8, 3, 'upload/roomimg/multi_img/202503130920_67d2a35c18195.jpg', '2025-03-13 03:20:28', '2025-03-13 03:20:28'),
+(13, 5, 'upload/roomimg/multi_img/202503141403_67d4374f01564.jpg', '2025-03-14 08:03:59', '2025-03-14 08:03:59'),
+(14, 5, 'upload/roomimg/multi_img/202503141403_67d4374f023fd.jpg', '2025-03-14 08:03:59', '2025-03-14 08:03:59'),
+(15, 5, 'upload/roomimg/multi_img/202503141403_67d4374f03207.jpg', '2025-03-14 08:03:59', '2025-03-14 08:03:59'),
+(16, 5, 'upload/roomimg/multi_img/202503141403_67d4374f03f22.jpg', '2025-03-14 08:03:59', '2025-03-14 08:03:59'),
+(17, 6, 'upload/roomimg/multi_img/202503141405_67d4378fb7bd9.jpg', '2025-03-14 08:05:03', '2025-03-14 08:05:03'),
+(18, 6, 'upload/roomimg/multi_img/202503141405_67d4378fb8932.jpg', '2025-03-14 08:05:03', '2025-03-14 08:05:03'),
+(19, 6, 'upload/roomimg/multi_img/202503141405_67d4378fb9692.jpg', '2025-03-14 08:05:03', '2025-03-14 08:05:03'),
+(20, 6, 'upload/roomimg/multi_img/202503141405_67d4378fba4d1.jpg', '2025-03-14 08:05:03', '2025-03-14 08:05:03'),
+(22, 4, 'upload/roomimg/multi_img/202503141625_67d4586cdb469.jpg', '2025-03-14 10:25:16', '2025-03-14 10:25:16'),
+(23, 4, 'upload/roomimg/multi_img/202503141625_67d4586cdc47d.jpg', '2025-03-14 10:25:16', '2025-03-14 10:25:16'),
+(24, 4, 'upload/roomimg/multi_img/202503141625_67d4586cdd31d.jpg', '2025-03-14 10:25:16', '2025-03-14 10:25:16'),
+(25, 4, 'upload/roomimg/multi_img/202503141625_67d4586cde4bc.jpg', '2025-03-14 10:25:16', '2025-03-14 10:25:16');
 
 -- --------------------------------------------------------
 
@@ -298,10 +405,10 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `roomtype_id`, `total_adult`, `total_child`, `room_capacity`, `image`, `price`, `size`, `view`, `bed_style`, `discount`, `short_desc`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(3, 2, '3', '2', '3', '1798281847469041.jpg', '452000.00', '25', 'Natural View', 'Twin Bed', 10, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:56:21', '2024-08-30 23:00:54'),
-(4, 3, '23', '36', '5', '1797548210826449.jpg', '485000.00', '25', 'Natural View', 'Twin Bed', 0, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:57:15', '2024-07-05 17:20:22'),
-(5, 4, '3', '2', '4', '1797548210826449.jpg', '485000.00', '25', 'Natural View', 'Twin Bed', 0, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:57:15', '2024-09-08 09:11:59'),
-(6, 5, '23', '36', '3', '1804033818271580.jpg', '452000.00', '25', 'Natural View', 'Twin Bed', 10, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:56:21', '2024-09-08 09:15:01');
+(3, 2, '3', '2', '3', 'upload/roomimg/1826590988571766.jpg', '452000.00', '25', 'Natural View', 'Twin Bed', 10, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:56:21', '2025-03-14 11:21:53'),
+(4, 3, '23', '36', '5', 'upload/roomimg/1826590967367757.jpg', '485000.00', '25', 'Natural View', 'Twin Bed', 0, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:57:15', '2025-03-14 11:21:32'),
+(5, 4, '3', '2', '4', 'upload/roomimg/1826590936336961.jpg', '485000.00', '25', 'Natural View', 'Twin Bed', 0, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:57:15', '2025-03-14 11:21:04'),
+(6, 5, '23', '20', '3', 'upload/roomimg/1826590893448943.jpg', '452000.00', '4', 'Natural View', 'Twin Bed', 10, 'As i explained before maintain the description in vendor material number of the info record.it will be\r\n\r\nprinted in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as', '<p>As i explained before maintain the description in vendor material number of the info record.it will be</p><p>printed in PO also.When u do MIGO ,check in material tab of migo the description will be displayed as</p><p>required by u.Reg J1iex i am not able check because CIN is not activated in my system.</p>', 1, '2024-07-05 09:56:21', '2025-03-14 11:20:22');
 
 -- --------------------------------------------------------
 
@@ -487,12 +594,25 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `photo`, `phone`, `address`, `role`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$cGw7xbSN0nGcPFbFx9Tf7.QWZiBePXT2J0GSlY1vq1RyErjwOBIe2', '', '01920797783', NULL, 'admin', 'active', NULL, NULL, NULL),
-(2, 'user', 'user@gmail.com', NULL, '$2y$10$sOhc4PlTrgSuArQH7B1OfOauDahndrVbLdOq7Q.tNWNLWatL0Uq/y', '202502220744WhatsApp Image 2025-01-05 at 01.07.44_92794632.jpg', '01538309325', 'Bangaldesh', 'user', 'active', NULL, NULL, '2025-02-22 01:45:08');
+(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$YVx8ID6Q0bRqkWDUqzjotOOLGa/cmq9tOfDnWePvEjfoYVvRW9z0y', '202503140537WhatsApp Image 2025-01-05 at 01.07.44_92794632.jpg', '01920797783', 'Dhaka', 'admin', 'active', NULL, NULL, '2025-03-13 23:37:20'),
+(2, 'masum hossin', 'masum@gmail.com', NULL, '$2y$10$sOhc4PlTrgSuArQH7B1OfOauDahndrVbLdOq7Q.tNWNLWatL0Uq/y', '202503140540images.jpg', '01538309325', 'Bangaldesh', 'user', 'active', NULL, NULL, '2025-03-13 23:40:38'),
+(3, 'admin', 'yamin@gmail.com', NULL, '$2y$10$NsZgxWwl7MwSgfdEuomaL.DDu1GcSuWEWn7Krn5Bpm.jVK63w.W9m', NULL, NULL, NULL, 'user', 'active', NULL, '2025-03-14 04:39:10', '2025-03-14 04:39:10');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `blog_categories`
+--
+ALTER TABLE `blog_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `blog_posts`
+--
+ALTER TABLE `blog_posts`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `bookings`
@@ -510,6 +630,12 @@ ALTER TABLE `booking_room_lists`
 -- Indexes for table `book_areas`
 --
 ALTER TABLE `book_areas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -599,6 +725,18 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `blog_categories`
+--
+ALTER TABLE `blog_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `blog_posts`
+--
+ALTER TABLE `blog_posts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
@@ -617,10 +755,16 @@ ALTER TABLE `book_areas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `facilities`
 --
 ALTER TABLE `facilities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -632,13 +776,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `multi_images`
 --
 ALTER TABLE `multi_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -686,7 +830,7 @@ ALTER TABLE `testimonials`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

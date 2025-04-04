@@ -183,8 +183,17 @@ public function BlogCatList(Request $request,  $id){
     $blog = BlogPost::where('blogcat_id', $id)->get();
     $blogCategory = BlogCategory::latest()->get();
     $lblog = BlogPost::latest()->limit(3)->get();
-    return view('frontend.blog.blog_cat_list', compact('blog', 'blogCategory', 'lblog'));
+    $blogCatName = BlogCategory::where('id', $id)->firstOrFail();
+    return view('frontend.blog.blog_cat_list', compact('blog', 'blogCategory', 'lblog', 'blogCatName'));
 }
+ 
+ public function blogMenu(){
+    $blog = BlogPost::latest()->paginate(3); // Needs more than 3 blog posts
+    $blogCategory = BlogCategory::latest()->get();
+    $lblog = BlogPost::latest()->limit(3)->get();
+
+    return view('frontend.blog.blog_menu', compact('blog', 'blogCategory', 'lblog'));
+ }
 
 }
     
