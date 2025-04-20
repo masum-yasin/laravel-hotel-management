@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\CommentController;
+use App\Http\Controllers\backend\GalleryController;
+use App\Http\Controllers\backend\ReportController;
 use App\Http\Controllers\backend\RoomController;
 use App\Http\Controllers\backend\TeamController;
 use App\Http\Controllers\backend\RoomTypeController;
@@ -10,7 +12,9 @@ use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\RoomListController;
+use App\Http\Controllers\backend\SettingController;
 use App\Http\Controllers\backend\TestimonialController;
+
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -150,11 +154,32 @@ Route::get('all/comment/', 'AllComment')->name('all.comment');
 Route::post('update/comment/status/', 'UpdateCommentStatus')->name('update.comment.status');
 
 });
+// Here Are Report Controller
+ Route::controller(ReportController::class)->group(function(){
+    Route::get('booking/report/', 'BookingReport')->name('booking.report');
+    Route::post('search/by/date', 'SearchByDate')->name('search-by-date');
 });
 
+Route::controller(GalleryController::class)->group(function(){
+    Route::get('contact/message', 'AdminContactMessage')->name('contact.message');
+    Route::get('all/gallery', 'AllGallery')->name('all.gallery');
+    Route::get('add.gallery', 'AddGallery')->name('add.gallery');
+    Route::post('gallery/store', 'GalleryStore')->name('gallery.store');
+    Route::get('edit/gallery/{id}', 'EditGallery')->name('edit.gallery');
+    Route::post('update/gallery', 'UpdateGallery')->name('update.gallery');
+    Route::get('delete/gallery/{id}', 'DeleteGallery')->name('delete.gallery');
+    Route::post('delete/gallery/multiple', 'DeleteMultipleGallery')->name('delete.gallery.multiple');
 
+});
 
+// Here Are Setting Controller
 
+Route::controller(SettingController::class)->group(function(){
+    Route::get('site/setting', 'SiteSetting')->name('site.setting');
+    Route::post('site/setting/update', 'SiteSettingUpdate')->name('site.setting.update');
+});
+
+});
 
 // Middleware User must access for user login here
 
@@ -166,11 +191,10 @@ Route::post('/checkout/store', 'CheckoutStore')->name('checkout.store');
 Route::post('update/booking/status/{id}', 'UpdateBookingStatus')->name('update.booking.status');
 Route::post('update/booking/{id}', 'UpdateBooking')->name('update.booking');
 Route::get('assign_room/{id}', 'AssignRoom')->name('assign_room');
-Route::GET('assign_room/store/{booking_id}/{room_number_id}', 'AssignRoomStore')->name('assign_room_store');
+Route::get('assign_room/store/{booking_id}/{room_number_id}', 'AssignRoomStore')->name('assign_room_store');
 Route::get('assign_room_delete/{id}', 'AssignRoomDelete')->name('assign_room_delete');
 
 
-// 
 Route::get('user.bookinglist', 'UserBookingList')->name('user.bookinglist');
 Route::get('userpdf/invoice/{id}','UserPdfInvoice')->name('userpdf.invoice');
 });
@@ -203,4 +227,13 @@ Route::controller(BlogController::class)->group(function(){
 // Frontend Comment Controller
 Route::controller(CommentController::class)->group(function(){
     Route::post('comment/store/', 'CommentStore')->name('comment.store');
+});
+
+// Frontend Gallery Controller 
+Route::controller(GalleryController::class)->group(function(){
+    Route::get('contact.us', 'ContactUs')->name('contact.us');
+    Route::post('contact/store', 'ContactStore')->name('contact.store');
+    Route::get('show/gallery', 'ShowGallery')->name('show.gallery');
+   
+
 });

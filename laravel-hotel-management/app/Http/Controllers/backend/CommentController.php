@@ -34,7 +34,7 @@ public function AllComment(){
 }
 
 public function UpdateCommentStatus(Request $request)
-{
+{ 
     $commentId = $request->input('comment_id');
     $isChecked = $request->input('is_checked');
 
