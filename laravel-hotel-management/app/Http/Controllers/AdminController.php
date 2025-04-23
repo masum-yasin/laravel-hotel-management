@@ -18,8 +18,8 @@ class AdminController extends Controller
     $complete = Booking::where('status',1)->get();
     $totalPrice =Booking::where('status', 1)->sum('total_price');
     $toDay = Carbon::now()->toDateString();
-$toDayBookingPrice = Booking::whereDate('created_at', $toDay)->sum('total_price');
-$recentData = Booking::orderBy('id', 'desc')->limit(10)->get();
+    $toDayBookingPrice = Booking::whereDate('created_at', $toDay)->sum('total_price');
+    $recentData = Booking::orderBy('id', 'desc')->limit(10)->get();
 
 
         return view('admin.body.index', [

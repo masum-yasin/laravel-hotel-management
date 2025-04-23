@@ -195,6 +195,7 @@ Route::get('assign_room/store/{booking_id}/{room_number_id}', 'AssignRoomStore')
 Route::get('assign_room_delete/{id}', 'AssignRoomDelete')->name('assign_room_delete');
 
 
+
 Route::get('user.bookinglist', 'UserBookingList')->name('user.bookinglist');
 Route::get('userpdf/invoice/{id}','UserPdfInvoice')->name('userpdf.invoice');
 });
@@ -236,4 +237,9 @@ Route::controller(GalleryController::class)->group(function(){
     Route::get('show/gallery', 'ShowGallery')->name('show.gallery');
    
 
+});
+
+// Notification Route 
+Route::controller(BookingController::class)->group(function(){
+Route::post('/mark-notification-as-read/{notification}','ReadNotification');
 });

@@ -15,8 +15,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\BookingRoomList;
 use App\Models\roomNumber;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BookingComplete;
+
 
 class BookingController extends Controller
 
@@ -71,6 +76,11 @@ class BookingController extends Controller
 }
 
 public function CheckoutStore(Request $request){
+
+
+ $user = User::where('role', 'admin')->get();
+
+
     $this->validate($request, [
         'country' => 'required',
         'email' => 'required',
@@ -151,6 +161,8 @@ foreach ($d_period as $period) {
         'message' => 'Booking Added Successfully',
         'alert-type' => 'success'
         );
+
+      Notification::send($user, new BookingComplete($request->name));
       
         return redirect('/')->with($notification);
 }
@@ -350,6 +362,29 @@ public function UserPdfInvoice($id){
     ]);
     return $pdf->download('invoice.pdf');
 }
+
+
+
+public function ReadNotification(Request $request, $notificationIds)
+{
+    try {
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id', $notificationIds)->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return response()->json([
+            'count' => $user->unreadNotifications()->count(),
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Error reading notification: ' . $e->getMessage());
+        return response()->json(['error' => 'Something went wrong'], 500);
+    }
+}
+
+
 }   
 
 

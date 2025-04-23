@@ -1,5 +1,5 @@
 @extends('admin.admin_dashboard')
-@section('title','All Team')
+@section('title','Booking List')
 @section('admin')
     <div class="page-content">
 				<!--breadcrumb-->

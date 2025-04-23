@@ -149,13 +149,9 @@
                 </div>
             </div>
         </div>
+ </div>
 
-
-
-
-      
-
-    </div>
+ 
 
     <script>
         var ctx = document.getElementById('bookingChart').getContext('2d');
